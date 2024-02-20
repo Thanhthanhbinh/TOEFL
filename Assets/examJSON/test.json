@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "question":"What is past tense of 'have'?",
+            "answer": ["had", "have", "haved", "haded"],
+            "correctAnswer": "had"
+        },
+        {
+            "question":"What is past tense of 'ride'?",
+            "answer": ["rode", "rided", "rideen", "ridened"],
+            "correctAnswer": "rode"
+        }
+    ]
+}

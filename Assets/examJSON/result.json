@@ -1,0 +1,19 @@
+{
+    "data":[
+        {
+            "question":"q1",
+            "answer":["a","c","d","e"],
+            "correctAnswer":"e"
+        },
+        {
+            "question":"q2",
+            "answer":["e","gee","w","a"],
+            "correctAnswer":"a"
+        },
+        {
+            "question":"q3",
+            "answer":["e","gee","w","a"],
+            "correctAnswer":"a"
+        }
+    ]
+}
