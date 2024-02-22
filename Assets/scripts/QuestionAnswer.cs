@@ -16,7 +16,7 @@ public class QuestionAnswer
     
     [SerializeField]
     public string correctAnswer; // the correct answer e.g 'have'
-    private string chosenAnswer; // the chosen answer e.g 'A'
+    private string chosenAnswer; // the chosen answer e.g 'have'
 
     [SerializeField]
     private Dictionary<string,string> answerList = new Dictionary<string, string>(); // the List of answers e.g 'A':'have'
@@ -31,7 +31,7 @@ public class QuestionAnswer
     }
 
     public bool isCorrect() {
-        return correctAnswer == answerList[chosenAnswer];
+        return correctAnswer == chosenAnswer;
     }
 
     public void setChosen(string chosen) {
@@ -92,6 +92,10 @@ public class QuestionAnswer
         return question;
     }
 
+    public string getCorrectAnswer(){
+        return correctAnswer;
+    }
+
     public void printAnswer() {
         Debug.Log(answer);
         foreach(var value in answer)
@@ -100,4 +104,5 @@ public class QuestionAnswer
             }
     }
     
+
 }

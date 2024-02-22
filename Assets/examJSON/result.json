@@ -1,19 +1,19 @@
 {
     "data":[
         {
-            "question":"q1",
-            "answer":["a","c","d","e"],
-            "correctAnswer":"e"
+            "question":"The idea that rocks last forever and that rocks ___ change is not completely true. ",
+            "answer":["(A) still","(B) very","(C) quite","(D) never"],
+            "correctAnswer":"(D) never"
         },
         {
-            "question":"q2",
-            "answer":["e","gee","w","a"],
-            "correctAnswer":"a"
+            "question":"If you have ever stood next to a rushing river, you ___ the water hammering away at the rocks.",
+            "answer":["(A) saw","(B) seen","(C) are seeing","(D) may have seen"],
+            "correctAnswer":"(D) may have seen"
         },
         {
-            "question":"q3",
-            "answer":["e","gee","w","a"],
-            "correctAnswer":"a"
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you",
+            "answer":["(A) So","(B) While","(C) Because","(D) Although"],
+            "correctAnswer":"(B) While"
         }
     ]
 }
