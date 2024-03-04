@@ -15,6 +15,8 @@ public class quizManagerController : MonoBehaviour
     public Transform livesContainer;
     // reference to the current object
     public GameObject quizController;
+
+    public GameObject gameObject;
     //number of correctly answered questions
     public int correctAnswersNum;
     // the score
@@ -89,6 +91,8 @@ public class quizManagerController : MonoBehaviour
         // Debug.Log(quizController.transform.parent.gameObject.transform.GetChild(1));
         TMP_Text scoreText = quizController.transform.parent.gameObject.transform.GetChild(1).GetComponentInChildren<TMP_Text>();
         scoreText.SetText(score + "/" + totalQuestions);
+
+        gameObject.GetComponent<gameController>().correctRun();
     }
 
     public void revive(){
