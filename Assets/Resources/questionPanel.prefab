@@ -1334,7 +1334,6 @@ MonoBehaviour:
     answer: []
     correctAnswer: 
   quizController: {fileID: 0}
-  chosenAnswer: {fileID: 0}
 --- !u!1 &7315150123647662686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1593,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2816565680689270688}
         m_TargetAssemblyTypeName: QuestionAnswerController, Assembly-CSharp
-        m_MethodName: checkAnswer
+        m_MethodName: showHint
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

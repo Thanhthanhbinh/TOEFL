@@ -9,7 +9,7 @@ public class editorManagerController : MonoBehaviour
     GameObject editorPanel ;
     public Transform container;
 
-    private string pathStart = "C:/Users/loral/Desktop/unity project/2d platformer sample/PRJ-test/Assets/Scripts/";
+    private string pathStart = "C:/Users/loral/Desktop/unity project/2d platformer sample/PRJ-test/Assets/examJSON/";
 
     void Start()
     {

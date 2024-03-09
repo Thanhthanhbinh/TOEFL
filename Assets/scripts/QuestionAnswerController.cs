@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+
 
 public class QuestionAnswerController : MonoBehaviour
 {
@@ -12,19 +14,21 @@ public class QuestionAnswerController : MonoBehaviour
     private Button chosenAnswer;
     private Button correctAnswer;
     private bool answered;
+    private bool hint;
 
     
     // Start is called before the first frame update
     void Start()
     {
         answered = false;
+        hint = true;
         updateUI();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void updateUI() {
@@ -80,11 +84,37 @@ public class QuestionAnswerController : MonoBehaviour
         bool result = content.isCorrect();
         if (result) {
             chosenAnswer.GetComponent<Image>().color = Color.green;
-            quizController.GetComponent<quizManagerController>().increaseScore();
+            quizController.GetComponent<quizManagerController>().correctAnswer();
+            
         }else {
             chosenAnswer.GetComponent<Image>().color = Color.red;
+            quizController.GetComponent<quizManagerController>().incorrectAnswer();
             showCorrect();
         }
+        quizController.GetComponent<quizManagerController>().increaseAnsweredQuestions();
+        quizController.GetComponent<quizManagerController>().endGame();
     }
+
+    public void showHint() {
+        if (!hint) {
+            Debug.Log("hint used");
+            return;
+        }
+        hint = false;
+        GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
+        List<string> answerList = content.getAnswer();
+        string correctVal = content.getCorrectAnswer();
+        answerList.Remove(correctVal);
+        System.Random r = new System.Random();
+        int rInt = r.Next(0, answerList.Count);
+        foreach (Transform item in answerButtonList.transform)
+        {
+            // Debug.Log(item.gameObject);
+            if (item.gameObject.GetComponentInChildren<TMP_Text>().text == answerList[rInt]){
+                item.gameObject.GetComponent<Image>().color = Color.red;
+            }
+        }
+    }
+
 
 }

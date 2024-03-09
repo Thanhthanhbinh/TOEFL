@@ -1,0 +1,8 @@
+{"data":
+[{
+    "question":"Mr. Morris, called on the phone to talk with you. He ____ one of\r                                                                                                      his other classes on a field trip to the aquarium this Saturday",
+    "answer":["take","to take","is taking","was taken"],
+    "correctAnswer":"was taken"},
+    {"question":"A student in that\r                           class is sick and ___ to go.","answer":["will be able not","not will be able","be able will not","will not be able","will not be able"],
+    "correctAnswer":"will not be able"},
+    {"question":"Mr. Morris wants to know\r                                         whether you’d like to take _______ on the trip.","answer":["that student’s place","that student’s place is","of that student’s place","that student’s place, which"],"correctAnswer":"that student’s place, which"},{"question":"He said that he is ___ you the chance first because of the great report you wrote about whales. You’ll need to let him know tomorrow.","answer":["offering","a","discussing","c"],"correctAnswer":"discussing"}]}

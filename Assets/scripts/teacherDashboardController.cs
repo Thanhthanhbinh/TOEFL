@@ -31,6 +31,18 @@ public class teacherDashboardController : MonoBehaviour
         }
     }
 
+    public void changeToMenu() {
+        Debug.Log("Change Scene to Menu");
+        try 
+        {
+            SceneManager.LoadScene("Menu");
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Menu.unity");
+        }
+    }
     
 
     private void listExams() {
