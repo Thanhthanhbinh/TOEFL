@@ -12,4 +12,5 @@ interface gameController
 
     void incorrectRun();
     
+    bool finish();
 }

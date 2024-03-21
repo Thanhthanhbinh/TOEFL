@@ -80,8 +80,16 @@ public class QuestionAnswerController : MonoBehaviour
     }
     // this checks the answer chosen by the player and change the score and color accordingly
     public void checkAnswer() {
+        if (answered){
+            return;
+        }
         answered = true;
         bool result = content.isCorrect();
+        if (chosenAnswer == null){
+            quizController.GetComponent<quizManagerController>().incorrectAnswer();
+            showCorrect();
+            return;
+        }
         if (result) {
             chosenAnswer.GetComponent<Image>().color = Color.green;
             quizController.GetComponent<quizManagerController>().correctAnswer();
@@ -91,11 +99,15 @@ public class QuestionAnswerController : MonoBehaviour
             quizController.GetComponent<quizManagerController>().incorrectAnswer();
             showCorrect();
         }
-        quizController.GetComponent<quizManagerController>().increaseAnsweredQuestions();
-        quizController.GetComponent<quizManagerController>().endGame();
+        
     }
 
+    public bool isAnswered()
+    {
+        return answered;
+    }
     public void showHint() {
+        Result.Instance.hintBadge = false;
         if (!hint) {
             Debug.Log("hint used");
             return;

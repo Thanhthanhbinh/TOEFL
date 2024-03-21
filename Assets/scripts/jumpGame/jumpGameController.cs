@@ -12,16 +12,16 @@ public class jumpGameController : MonoBehaviour,gameController
 
     private int platformCounter;
     // Start is called before the first frame update
-    
+    private float yPos;
 
     public void setup(int total) {
         Debug.Log("setup");
-        GameObject platform = Resources.Load<GameObject>("jumpPlatform");
+        GameObject platform = Resources.Load<GameObject>("JumpGame/jumpPlatform");
         foreach(Transform child in platformGroup.transform)
         {
             Destroy(child.gameObject);
         }
-        float yPos = 46f;
+        yPos = 46f;
         for (int i = 0; i < total; i++)
         {
             
@@ -31,7 +31,7 @@ public class jumpGameController : MonoBehaviour,gameController
             temp.GetComponent<jumpPlatformController>().player = player;
             temp.GetComponent<jumpPlatformController>().platformGroup = platformGroup;
             yPos = yPos + 100f;
-            Debug.Log(temp);
+            // Debug.Log(temp);
             // platformList.Add(temp);
         }
 
@@ -50,4 +50,9 @@ public class jumpGameController : MonoBehaviour,gameController
         playerRigid.AddForce(new Vector2(0f, 300f), ForceMode2D.Impulse);
     }
     
+    public bool finish(){
+        Debug.Log("is the game finished");
+        Debug.Log(player.GetComponent<playerController>().touching);
+        return player.GetComponent<playerController>().touching;
+    }
 }

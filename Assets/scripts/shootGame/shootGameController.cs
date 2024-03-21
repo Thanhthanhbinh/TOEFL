@@ -26,7 +26,7 @@ public class shootGameController : MonoBehaviour,gameController
         {
             Destroy(child.gameObject);
         }
-        GameObject bullet = Resources.Load<GameObject>("bullet");
+        GameObject bullet = Resources.Load<GameObject>("ShootGame/bullet");
         GameObject temp = Instantiate(bullet,bulletGroup);
         // temp.transform.position = new Vector2(171f,500f);
 
@@ -44,6 +44,9 @@ public class shootGameController : MonoBehaviour,gameController
         blocker.GetComponent<blockerController>().state = "incorrect";
         //block = incorrect
 
+    }
+    public bool finish(){
+        return bulletGroup.childCount == 0;
     }
     
 }
