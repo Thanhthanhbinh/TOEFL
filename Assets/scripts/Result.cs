@@ -17,7 +17,10 @@ public class Result : MonoBehaviour
     public int total;
     public string state;
 
+    public string reward;
     public string gameType;
+
+    public int section;
     void Start()
     {
         if (Instance != null)

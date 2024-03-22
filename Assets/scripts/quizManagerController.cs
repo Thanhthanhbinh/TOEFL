@@ -53,7 +53,7 @@ public class quizManagerController : MonoBehaviour
         setUpQuestion();
         setUpLives();
         setUpGame();
-        setUpReward();
+        setUpBadge();
     }
 
     void Update(){
@@ -63,7 +63,7 @@ public class quizManagerController : MonoBehaviour
     //set up the questions in the quiz
     public void setUpQuestion(){
         //make a quiz manager with the given path 
-        QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/result.json");
+        QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/trial.json");
         //get the list of questions
         List<QuestionAnswer> questionPanelList = manager.readJSON();
         //update the total number of questions
@@ -92,9 +92,7 @@ public class quizManagerController : MonoBehaviour
         }
     }
 
-    public void setUpReward() {
-        Debug.Log(Result.Instance);
-        Debug.Log(Result.Instance);
+    public void setUpBadge() {
         Result.Instance.liveBadge = true;
         Result.Instance.hintBadge = true;
     }
@@ -183,9 +181,9 @@ public class quizManagerController : MonoBehaviour
             //     Debug.Log("not yet");
             //     yield return new WaitForSeconds(1f);
             // }
-            yield return new WaitForSeconds(2.0f);
 
             item.GetComponentInChildren<QuestionAnswerController>().checkAnswer();
+            yield return new WaitForSeconds(2.0f);
     }
     IEnumerator checkAll(){
         foreach (var item in questionList)

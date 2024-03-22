@@ -167,8 +167,8 @@ RectTransform:
   - {fileID: 6501175243385203031}
   - {fileID: 5383780115474274055}
   - {fileID: 622762666814166691}
-  - {fileID: 4887787783912767290}
   - {fileID: 152082678284140757}
+  - {fileID: 4887787783912767290}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1314,7 +1314,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5415243006426125099}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2816565680689270688
 MonoBehaviour:
@@ -1332,8 +1332,11 @@ MonoBehaviour:
   content:
     question: 
     answer: []
+    mode: 
+    section: 0
     correctAnswer: 
   quizController: {fileID: 0}
+  hintButton: {fileID: 7578881500515372621}
 --- !u!1 &7315150123647662686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,7 +1505,7 @@ RectTransform:
   m_Children:
   - {fileID: 2432522073306044824}
   m_Father: {fileID: 5415243006426125099}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

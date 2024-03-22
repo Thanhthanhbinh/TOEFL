@@ -11,6 +11,7 @@ public class QuestionAnswerController : MonoBehaviour
     public GameObject questionPanel ; // the game object it is pointed to 
     public QuestionAnswer content; // the question it is associated with
     public GameObject quizController; // the game object that control the logic of the game
+    public GameObject hintButton;
     private Button chosenAnswer;
     private Button correctAnswer;
     private bool answered;
@@ -21,7 +22,12 @@ public class QuestionAnswerController : MonoBehaviour
     void Start()
     {
         answered = false;
-        hint = true;
+        if (content.mode == "easy") {
+            hint = true;
+        }else{
+            hint = false;
+            Destroy(hintButton);
+        }
         updateUI();
     }
 
@@ -52,13 +58,13 @@ public class QuestionAnswerController : MonoBehaviour
             answerButton.onClick.AddListener(() => { 
                 if (answered == false) {
                     chosenAnswer = answerButton;
-                    content.setChosen(answer);
+                    content.setChosen(answer.Substring(3).Trim());
                     resetButtonColor();
                     answerButton.GetComponent<Image>().color = Color.yellow;
                 }
             });
             //assign the button with the correct answer a ref
-            if (answer == content.getCorrectAnswer()){
+            if (answer.Substring(3).Trim() == content.getCorrectAnswer()){
                 correctAnswer = answerButton;
             }
             counter = counter + 1;
