@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Result : MonoBehaviour
+public class ExamInfo : MonoBehaviour
 {
     // Start is called before the first frame update
-    public static Result Instance;
+    public static ExamInfo Instance;
 
-    public bool liveBadge;
     public bool hintBadge;
-    public bool overBadge;
-
-    public bool correctBadge;
+    
+    public Dictionary<string,int> badgeList;
     public int score;
     public int grade;
     public int total;
+
+    // show performance 
     public string state;
 
     public string reward;
     public string gameType;
 
-    public int section;
+    public Dictionary<int, string> section;
     void Start()
     {
         if (Instance != null)
@@ -28,12 +28,11 @@ public class Result : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        // end of new code
-
         Instance = this;
+        badgeList = new Dictionary<string, int>{{"luckyBadge",0},{"aboveTotalBadge",0},{"allCorrectBadge",0},{"noHintBadge",0},{"noLivesBadge",0}};
+        section = new Dictionary<int, string> ();
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
     
 }

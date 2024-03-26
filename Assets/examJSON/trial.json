@@ -9,8 +9,37 @@
         },
         {
             "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
-            "answer":["(A)  So","(B)  While","(C)  Because","(D)  Although"],
+            "answer":["(A)  So1","(B)  While","(C)  Because","(D)  Although"],
             "mode":"hard",
             "section":1,
             "correctAnswer":"While"
-        }]}
+        },
+        {
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
+            "answer":["(A)  So2","(B)  While","(C)  Because","(D)  Although"],
+            "mode":"hard",
+            "section":2,
+            "correctAnswer":"While"
+        },
+        {
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
+            "answer":["(A)  So3","(B)  While","(C)  Because","(D)  Although"],
+            "mode":"hard",
+            "section":3,
+            "correctAnswer":"While"
+        },
+        {
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
+            "answer":["(A)  So3","(B)  While","(C)  Because","(D)  Although"],
+            "mode":"hard",
+            "section":3,
+            "correctAnswer":"While"
+        },
+        {
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
+            "answer":["(A)  So3","(B)  While","(C)  Because","(D)  Although"],
+            "mode":"hard",
+            "section":3,
+            "correctAnswer":"While"
+        }
+    ]}

@@ -14,6 +14,9 @@ public class jumpGameController : MonoBehaviour,gameController
     // Start is called before the first frame update
     private float yPos;
 
+    void Update(){
+
+    }
     public void setup(int total) {
         Debug.Log("setup");
         GameObject platform = Resources.Load<GameObject>("JumpGame/jumpPlatform");
@@ -51,8 +54,8 @@ public class jumpGameController : MonoBehaviour,gameController
     }
     
     public bool finish(){
-        Debug.Log("is the game finished");
-        Debug.Log(player.GetComponent<playerController>().touching);
+        // Debug.Log("is the game finished");
+        // Debug.Log(player.GetComponent<playerController>().touching);
         return player.GetComponent<playerController>().touching;
     }
 }

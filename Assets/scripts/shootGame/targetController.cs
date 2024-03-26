@@ -8,5 +8,6 @@ public class targetController : MonoBehaviour
     public GameObject blocker;
     void OnCollisionEnter2D(Collision2D collision){
         blocker.GetComponent<blockerController>().state = "done";
+        Debug.Log("correct");
     }
 }

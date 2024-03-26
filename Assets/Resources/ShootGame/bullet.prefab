@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6108982673799555435}
   - component: {fileID: 1228253184910257880}
   - component: {fileID: 6459922897715107466}
+  - component: {fileID: 225857122220422243}
   m_Layer: 5
   m_Name: bullet
   m_TagString: Untagged
@@ -38,8 +39,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.7853, y: -73}
-  m_SizeDelta: {x: 10.0191, y: 46.2239}
+  m_AnchoredPosition: {x: -23.688, y: -70.4618}
+  m_SizeDelta: {x: 50.0329, y: 51.3003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1851805045264810627
 CanvasRenderer:
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 125815829, guid: 022e277a2213d4e46a0558486cfcaf35, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -113,7 +114,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.020202637, y: -0.15972519}
+  m_Offset: {x: 8.975372, y: -1.3541756}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -124,7 +125,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.890137, y: 44.893974}
+  m_Size: {x: 3.3685913, y: 28.768959}
   m_EdgeRadius: 0
 --- !u!114 &6459922897715107466
 MonoBehaviour:
@@ -139,3 +140,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1637054558901320055}
+--- !u!95 &225857122220422243
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637054558901320055}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8203474c6c9c9e94ab8397e1ee7f4192, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

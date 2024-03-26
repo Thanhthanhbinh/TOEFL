@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2378073428065562383}
   - component: {fileID: 1828531977787096053}
   - component: {fileID: 5828293690574734218}
+  - component: {fileID: 7003114629750210183}
   m_Layer: 5
   m_Name: wall
   m_TagString: Untagged
@@ -38,8 +39,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92.74315, y: -170.95026}
-  m_SizeDelta: {x: 44.4629, y: 39.1249}
+  m_AnchoredPosition: {x: -92.42961, y: -166.13907}
+  m_SizeDelta: {x: 48.2423, y: 48.7472}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1828531977787096055
 CanvasRenderer:
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1000414001, guid: ef6fde4d7634b194e91a6db7b9f42340, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -113,7 +114,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.872818, y: 0.0999527}
+  m_Offset: {x: 0.872818, y: 1.5918388}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -124,7 +125,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 42.785675, y: 40.27249}
+  m_Size: {x: 33.337067, y: 28.337418}
   m_EdgeRadius: 0
 --- !u!114 &5828293690574734218
 MonoBehaviour:
@@ -140,3 +141,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlatform: {fileID: 0}
   block: {fileID: 0}
+  player: {fileID: 0}
+--- !u!95 &7003114629750210183
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828531977787096057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7516b4a12c00e864581de40dc4127e60, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

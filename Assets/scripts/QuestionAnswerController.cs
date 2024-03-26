@@ -17,15 +17,14 @@ public class QuestionAnswerController : MonoBehaviour
     private bool answered;
     private bool hint;
 
+
     
     // Start is called before the first frame update
     void Start()
     {
         answered = false;
-        if (content.mode == "easy") {
-            hint = true;
-        }else{
-            hint = false;
+        hint = true;
+        if (content.mode == "hard") {
             Destroy(hintButton);
         }
         updateUI();
@@ -113,11 +112,11 @@ public class QuestionAnswerController : MonoBehaviour
         return answered;
     }
     public void showHint() {
-        Result.Instance.hintBadge = false;
         if (!hint) {
             Debug.Log("hint used");
             return;
         }
+        ExamInfo.Instance.hintBadge = false;
         hint = false;
         GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
         List<string> answerList = content.getAnswer();

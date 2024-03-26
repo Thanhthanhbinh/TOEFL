@@ -16,17 +16,6 @@ public class runGameController : MonoBehaviour,gameController
 
     private GameObject currentWall;
     void Update() {
-        if (platformGroup.childCount == 0){
-            return;
-        }
-        if (platformGroup.GetChild(0).transform.position.x < 163f){
-                
-            foreach (Transform platform in platformGroup.transform)
-            {
-                platform.position = 
-                new Vector2(platform.position.x + (900f*Time.deltaTime),platform.position.y);            }
-        }
-            
         
     }
     public void setup(int total) {
@@ -58,21 +47,21 @@ public class runGameController : MonoBehaviour,gameController
         wall.AddForce(new Vector2(400f, 0f), ForceMode2D.Impulse);
     }
     public void correctRun() {
+        wallMove();
         if (player.GetComponent<jumpMode>().jump) {
             player.GetComponent<jumpMode>().jump = false;
             Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
             playerRigid.AddForce(new Vector2(0f, 400f), ForceMode2D.Impulse);
         }
-        wallMove();
     }
 
     public void incorrectRun() {
+        wallMove();
         if (player.GetComponent<jumpMode>().jump) {
             player.GetComponent<jumpMode>().jump = false;
             Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
             playerRigid.AddForce(new Vector2(0f, 250f), ForceMode2D.Impulse);
         }
-        wallMove();
     }
     public bool finish(){
         if (currentWall != null){

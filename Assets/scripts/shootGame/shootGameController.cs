@@ -28,7 +28,7 @@ public class shootGameController : MonoBehaviour,gameController
         }
         GameObject bullet = Resources.Load<GameObject>("ShootGame/bullet");
         GameObject temp = Instantiate(bullet,bulletGroup);
-        // temp.transform.position = new Vector2(171f,500f);
+        temp.transform.position = player.transform.position;
 
         temp.GetComponent<bulletController>().bullet=temp;
         // Debug.Log(temp);

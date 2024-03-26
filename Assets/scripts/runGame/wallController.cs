@@ -11,16 +11,12 @@ public class wallController : MonoBehaviour
     // Start is called before the first frame update
 
     
-    void Update() {
-        if (block.GetComponent<Collider2D>().IsTouching(currentPlatform.GetComponent<Collider2D>())){
-            // Debug.Log("block");
-            Destroy(currentPlatform);   
-        }
-        if (player.GetComponent<Collider2D>().IsTouching(currentPlatform.GetComponent<Collider2D>())){
-            // Debug.Log("player");
-            Destroy(currentPlatform);   
-        }
-        //275 for x
-        
+    void Update()
+    {
+        block.transform.position = new Vector2(block.transform.position.x+ (400f*Time.deltaTime),block.transform.position.y );  
+    }
+
+    void OnCollisionEnter2D (Collision2D collision){
+        Destroy(block);
     }
 }

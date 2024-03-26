@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
+using UnityEngine.SceneManagement;
 
 public class resultController : MonoBehaviour
 {
@@ -11,34 +13,65 @@ public class resultController : MonoBehaviour
     public GameObject title;
     public Transform badgeContainer;
     public Transform scenarioContainer;
+    public GameObject rewardButton;
+    public GameObject resultImage;
     private List<string> rewardList;
     private Dictionary<string,string> gameTypeList ;
     private Dictionary<string,string> showingGameType;
+    private Button chosenScenario;
     void Start()
     {   
         gameTypeList = new Dictionary<string,string>{{"JumpGame","JumpGame/JumpGame"},{"RunGame","RunGame/RunGame"},{"ShootGame","ShootGame/ShootGame"}};
         showingGameType = new Dictionary<string,string>();
         rewardList = new List<string>{"lives","hint","scenario","badge"};
+        setUpImage();
         generateScenario();
-        scoreObject.GetComponentInChildren<TMP_Text>().SetText(Result.Instance.score + "/" + Result.Instance.total);
-        title.GetComponentInChildren<TMP_Text>().SetText(Result.Instance.state);
+        scoreObject.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.score + "/" + ExamInfo.Instance.total);
+        title.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.state);
         setUpBadge();
         setUpScenario();
 
     }
 
+    public void nextSection(){
+        if (chosenScenario == null){
+            createMessage("Choose a Scenario before continue to next section.");
+            return;
+        }
+        int currentSection = 0;
+        int nextSection = 0;
+        foreach (var section in ExamInfo.Instance.section.Keys)
+        {
+            if (ExamInfo.Instance.section[section] == "current"){
+                currentSection = section;
+            }
+            if (ExamInfo.Instance.section[section] == "future"){
+                if (nextSection != 0){
+                    continue;
+                }else {
+                    nextSection = section;
+                }
+            }
+        }
+        ExamInfo.Instance.section[currentSection] = "past";
+        ExamInfo.Instance.section[nextSection] = "current";
+        changeToExam();
+
+    }
     public void giveReward(){
         System.Random rnd = new System.Random();
         int r = rnd.Next(rewardList.Count);
-        Result.Instance.reward = rewardList[r];
-        Debug.Log(Result.Instance.reward);
-        if (Result.Instance.reward == "scenario") {
+        ExamInfo.Instance.reward = rewardList[r];
+        Debug.Log(ExamInfo.Instance.reward);
+        if (ExamInfo.Instance.reward == "scenario") {
             generateScenario();
             setUpScenario();
         }
-        if (Result.Instance.reward == "badge") {
+        if (ExamInfo.Instance.reward == "badge") {
+            ExamInfo.Instance.badgeList["luckyBadge"] += 1;
             setUpBadge();
         }
+        Destroy(rewardButton);
     }
     
     private void setUpBadge(){
@@ -46,33 +79,15 @@ public class resultController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        Debug.Log(Result.Instance.hintBadge);
-        Debug.Log(Result.Instance.liveBadge);
-        Debug.Log(Result.Instance.overBadge);
-        if (Result.Instance.hintBadge) {
-            GameObject badge = Resources.Load<GameObject>("Badges/noHintBadge");
-            GameObject temp = Instantiate(badge,badgeContainer);
-            Debug.Log(temp);
-        }
-        if (Result.Instance.liveBadge) {
-            GameObject badge = Resources.Load<GameObject>("Badges/noLivesBadge");
-            GameObject temp = Instantiate(badge,badgeContainer);
-            Debug.Log(temp);
-        }
-        if (Result.Instance.overBadge) {
-            GameObject badge = Resources.Load<GameObject>("Badges/aboveTotalBadge");
-            GameObject temp = Instantiate(badge,badgeContainer);
-            Debug.Log(temp);
-        }
-        if (Result.Instance.correctBadge) {
-            GameObject badge = Resources.Load<GameObject>("Badges/allCorrectBadge");
-            GameObject temp = Instantiate(badge,badgeContainer);
-            Debug.Log(temp);
-        }
-        if (Result.Instance.reward == "badge"){
-            GameObject badge = Resources.Load<GameObject>("Badges/luckyBadge");
-            GameObject temp = Instantiate(badge,badgeContainer);
-            Debug.Log(temp);
+        foreach (var badge in ExamInfo.Instance.badgeList.Keys)
+        {
+            for (int i = 0; i < ExamInfo.Instance.badgeList[badge]; i++)
+            {
+                Debug.Log(badge);
+                GameObject badgeItem = Resources.Load<GameObject>("Badges/" + badge);
+                GameObject temp = Instantiate(badgeItem,badgeContainer);
+            }
+            
         }
     }
     
@@ -101,9 +116,10 @@ public class resultController : MonoBehaviour
             textUI.SetText(gameType);
             //add listener to update chosen answer
             button.onClick.AddListener(() => { 
-                Result.Instance.gameType = gameTypeList[gameType];
+                ExamInfo.Instance.gameType = gameTypeList[gameType];
                 resetButtonColor();
                 button.GetComponent<Image>().color = Color.yellow;
+                chosenScenario = button;
             });
         }
     }
@@ -113,5 +129,36 @@ public class resultController : MonoBehaviour
             Button scenarioButton = scenarioContainer.transform.GetChild(i).gameObject.GetComponent<Button>();
             scenarioButton.GetComponent<Image>().color = Color.white;
         }
+    }
+
+    private void setUpImage(){
+        string state = "_lose";
+        string game = ExamInfo.Instance.gameType.Split('/')[0];
+        if (ExamInfo.Instance.state == "YOU WIN"){
+            state = "_win";
+        }
+        Debug.Log("Result/"+game +state);
+        Sprite win = Resources.Load<Sprite>("Result/"+game +state );
+        resultImage.GetComponent<Image>().sprite = win;
+    }
+
+    private void changeToExam() {
+        Debug.Log("Change Scene to ExamScene");
+        try 
+        {
+            SceneManager.LoadScene("ExamScene");
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamScene.unity");
+        }
+    }
+
+    private void createMessage(string input){
+        GameObject messageItem = Resources.Load<GameObject>("message");
+        GameObject temp = Instantiate(messageItem,scenarioContainer.parent);
+        temp.transform.position = new Vector2(411,220);
+        temp.GetComponentInChildren<messageController>().updateUI(input);
     }
 }

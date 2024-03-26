@@ -32,6 +32,9 @@ public class quizManagerController : MonoBehaviour
     public int score;
     //number of lives
     public int lives;
+
+    private bool liveBadge;
+    private bool hintBadge;
     // game type
     public string gameType;
     //number of total questions
@@ -41,15 +44,18 @@ public class quizManagerController : MonoBehaviour
     void Start()
     {   
         lives = 3;
+        if (ExamInfo.Instance.reward == "lives") {
+            lives = 4;
+        }
         incorrectStreak = 0;
         answeredQuestions = 0;
         totalQuestions = -1;
-        if (Result.Instance.gameType == "") {
-            gameType = "JumpGame/JumpGame";
+        if (ExamInfo.Instance.gameType == "") {
+            gameType = "RunGame/RunGame";
+            ExamInfo.Instance.gameType = "RunGame/RunGame";
         }else {
-            gameType = Result.Instance.gameType;
+            gameType = ExamInfo.Instance.gameType;
         }
-        
         setUpQuestion();
         setUpLives();
         setUpGame();
@@ -66,10 +72,7 @@ public class quizManagerController : MonoBehaviour
         QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/trial.json");
         //get the list of questions
         List<QuestionAnswer> questionPanelList = manager.readJSON();
-        //update the total number of questions
-        totalQuestions = questionPanelList.Count;
-        TMP_Text scoreText = scoreContainer.GetComponentInChildren<TMP_Text>();
-        scoreText.SetText(score + "/" + totalQuestions);
+        
         //create prefab of a panel of question
         GameObject questionPanel = Resources.Load<GameObject>("questionPanel");
         //clear the existing questionPanel being shown
@@ -79,30 +82,43 @@ public class quizManagerController : MonoBehaviour
         }
         //initialise the questionPanel and add their variables
         foreach (var item in questionPanelList)
-        {
-            GameObject temp = Instantiate(questionPanel,quizContainer);
-            //assign them their own object so they can change UI
-            temp.GetComponentInChildren<QuestionAnswerController>().questionPanel = temp;
-            // assign the corresponding questionAnswer object
-            temp.GetComponentInChildren<QuestionAnswerController>().content = item;
-            //
-            temp.GetComponentInChildren<QuestionAnswerController>().quizController = quizController;
+        {   
+            Debug.Log(ExamInfo.Instance.section);
+            if (ExamInfo.Instance.section.Count == 0){
+                ExamInfo.Instance.section[item.section] = "current" ;
+            }
+            if (!ExamInfo.Instance.section.ContainsKey(item.section)){
+                ExamInfo.Instance.section.Add(item.section ,"future"  );
+            }
+            if (ExamInfo.Instance.section[item.section] == "current"){
+                GameObject temp = Instantiate(questionPanel,quizContainer);
+                //assign them their own object so they can change UI
+                temp.GetComponentInChildren<QuestionAnswerController>().questionPanel = temp;
+                // assign the corresponding questionAnswer object
+                temp.GetComponentInChildren<QuestionAnswerController>().content = item;
+                //
+                temp.GetComponentInChildren<QuestionAnswerController>().quizController = quizController;
 
-            questionList.Add(temp);
+                questionList.Add(temp);
+            }
         }
+        //update the total number of questions
+        totalQuestions = questionList.Count;
+        TMP_Text scoreText = scoreContainer.GetComponentInChildren<TMP_Text>();
+        scoreText.SetText(score + "/" + totalQuestions);
     }
 
     public void setUpBadge() {
-        Result.Instance.liveBadge = true;
-        Result.Instance.hintBadge = true;
+        liveBadge= true;
+        ExamInfo.Instance.hintBadge = true;
     }
     public void setUpGame() {
         GameObject gameTypeObject = Resources.Load<GameObject>(gameType);
         GameObject temp = Instantiate(gameTypeObject,gameContainer);
-        temp.transform.position = new Vector2(170,188);
+        temp.transform.localPosition = new Vector2(0,0);
         game = temp;
         Debug.Log(game.GetComponentInChildren<gameController>());
-        game.GetComponentInChildren<gameController>().setup(totalQuestions+1);
+        game.GetComponentInChildren<gameController>().setup(totalQuestions);
     }
     //set up the lives UI
     public void setUpLives(){
@@ -150,7 +166,7 @@ public class quizManagerController : MonoBehaviour
 
     public void revive(){
         if (lives > 0) {
-            Result.Instance.liveBadge = false;
+            liveBadge = false;
             increaseScore();
             lives = lives - 1;
             Destroy(livesContainer.transform.GetChild(0).gameObject);
@@ -194,22 +210,32 @@ public class quizManagerController : MonoBehaviour
             
         }
     }
-    IEnumerator changeScence(){
-        
-        string scence = "ResultScene";
-        Result.Instance.state = "YOU WIN";
-        Result.Instance.score = score;
-        Result.Instance.total = totalQuestions;
-        Result.Instance.grade = correctAnswersNum;
+
+    private void setUpResult(){
+        ExamInfo.Instance.state = "YOU WIN";
+        ExamInfo.Instance.score = score;
+        ExamInfo.Instance.total = totalQuestions;
+        ExamInfo.Instance.grade = correctAnswersNum;
         if (score > totalQuestions){
-            Result.Instance.overBadge = true;
+            ExamInfo.Instance.badgeList["aboveTotalBadge"] += 1;
         }
         if (correctAnswersNum == totalQuestions){
-            Result.Instance.correctBadge = true;
+            ExamInfo.Instance.badgeList["allCorrectBadge"] += 1;
+        }
+        if (liveBadge){
+            ExamInfo.Instance.badgeList["noLivesBadge"] += 1;
+        }
+        if (ExamInfo.Instance.hintBadge){
+            ExamInfo.Instance.badgeList["noHintBadge"] += 1;
         }
         if (score < totalQuestions){
-            Result.Instance.state = "YOU LOSE";
+            ExamInfo.Instance.state = "YOU LOSE";
         }
+    }
+    IEnumerator changeScence(){
+        setUpResult();
+        string scence = "ResultScene";
+        
         Debug.Log("Change Scene to result screen");
         try 
         {

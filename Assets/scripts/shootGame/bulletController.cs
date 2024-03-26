@@ -9,7 +9,7 @@ public class bulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bullet.transform.position = new Vector2(bullet.transform.position.x,bullet.transform.position.y + (500f*Time.deltaTime));  
+        bullet.transform.position = new Vector2(bullet.transform.position.x,bullet.transform.position.y + (400f*Time.deltaTime));  
     }
 
     void OnCollisionEnter2D (Collision2D collision){
