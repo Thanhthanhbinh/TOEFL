@@ -15,6 +15,7 @@ public class resultController : MonoBehaviour
     public Transform scenarioContainer;
     public GameObject rewardButton;
     public GameObject resultImage;
+
     private List<string> rewardList;
     private Dictionary<string,string> gameTypeList ;
     private Dictionary<string,string> showingGameType;
@@ -23,16 +24,21 @@ public class resultController : MonoBehaviour
     {   
         gameTypeList = new Dictionary<string,string>{{"JumpGame","JumpGame/JumpGame"},{"RunGame","RunGame/RunGame"},{"ShootGame","ShootGame/ShootGame"}};
         showingGameType = new Dictionary<string,string>();
-        rewardList = new List<string>{"lives","hint","scenario","badge"};
+        rewardList = new List<string>{"lives","scenario","badge"};
         setUpImage();
         generateScenario();
         scoreObject.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.score + "/" + ExamInfo.Instance.total);
         title.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.state);
         setUpBadge();
         setUpScenario();
-
+        setUpReward();
     }
 
+    public void setUpReward(){
+        if (ExamInfo.Instance.state == "YOU LOSE"){
+            Destroy(rewardButton);
+        }
+    }
     public void nextSection(){
         if (chosenScenario == null){
             createMessage("Choose a Scenario before continue to next section.");
@@ -56,7 +62,6 @@ public class resultController : MonoBehaviour
         ExamInfo.Instance.section[currentSection] = "past";
         ExamInfo.Instance.section[nextSection] = "current";
         changeToExam();
-
     }
     public void giveReward(){
         System.Random rnd = new System.Random();
@@ -70,6 +75,9 @@ public class resultController : MonoBehaviour
         if (ExamInfo.Instance.reward == "badge") {
             ExamInfo.Instance.badgeList["luckyBadge"] += 1;
             setUpBadge();
+        }
+        if (ExamInfo.Instance.reward == "lives"){
+            createMessage("You will have an additional live next section");
         }
         Destroy(rewardButton);
     }

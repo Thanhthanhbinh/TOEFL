@@ -38,7 +38,14 @@ public class blockerController : MonoBehaviour
         //275 for x
         
     }
+    private void showEffect() {
+        GameObject wall = Resources.Load<GameObject>("effect");
+        GameObject temp = Instantiate(wall,blocker.transform.parent);
+        temp.transform.localPosition = new Vector2(56,-35);
+        Destroy(temp, 1);
+    }
     void OnCollisionEnter2D(Collision2D collision){
         state = "done";
+        showEffect();
     }
 }

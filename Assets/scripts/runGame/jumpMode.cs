@@ -11,7 +11,7 @@ public class jumpMode : MonoBehaviour
     // Update is called once per frame
     void OnCollisionEnter2D(Collision2D collision){
         string value = collision.gameObject.name;
-        if( value== "runPlatform"){
+        if( value== "land"){
             jump = true;
         }
     }

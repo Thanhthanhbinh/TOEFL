@@ -14,8 +14,10 @@ public class runGameController : MonoBehaviour,gameController
     // Start is called before the first frame update
     private float xPos;
 
+    void Start(){
+    }
     void Update() {
-        
+
     }
     public void setup(int total) {
         Debug.Log("setup");
@@ -26,9 +28,9 @@ public class runGameController : MonoBehaviour,gameController
             Destroy(child.gameObject);
         }
         
-            }
+        }
 
-    private void wallMove(){
+    private void wallMove(float speed){
 
         foreach(Transform child in platformGroup.transform)
         {
@@ -36,13 +38,13 @@ public class runGameController : MonoBehaviour,gameController
         }
         GameObject wall = Resources.Load<GameObject>("RunGame/wall");
         GameObject temp = Instantiate(wall,platformGroup);
-        temp.transform.localPosition = new Vector2(-130,44);
-
+        temp.transform.localPosition = new Vector2(-198,44);
+        temp.GetComponent<wallController>().speed=speed;
         temp.GetComponent<wallController>().block=temp;
     }
     public void correctRun() {
-        wallMove();
         if (player.GetComponent<jumpMode>().jump) {
+            wallMove(400f);
             player.GetComponent<jumpMode>().jump = false;
             Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
             playerRigid.AddForce(new Vector2(0f, 400f), ForceMode2D.Impulse);
@@ -50,11 +52,11 @@ public class runGameController : MonoBehaviour,gameController
     }
 
     public void incorrectRun() {
-        wallMove();
+        wallMove(900f);
         if (player.GetComponent<jumpMode>().jump) {
             player.GetComponent<jumpMode>().jump = false;
             Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
-            playerRigid.AddForce(new Vector2(0f, 250f), ForceMode2D.Impulse);
+            playerRigid.AddForce(new Vector2(0f, 200f), ForceMode2D.Impulse);
         }
     }
     public bool finish(){
