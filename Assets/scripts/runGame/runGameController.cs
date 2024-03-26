@@ -14,7 +14,6 @@ public class runGameController : MonoBehaviour,gameController
     // Start is called before the first frame update
     private float xPos;
 
-    private GameObject currentWall;
     void Update() {
         
     }
@@ -26,25 +25,20 @@ public class runGameController : MonoBehaviour,gameController
         {
             Destroy(child.gameObject);
         }
-        xPos = 163f;
-        for (int i = 0; i < total; i++)
-        {
-            
-            GameObject temp = Instantiate(platform,platformGroup);
-            temp.transform.position = new Vector2(xPos,50);
-            temp.GetComponent<wallController>().currentPlatform = temp;
-            temp.GetComponent<wallController>().block = block;
-            temp.GetComponent<wallController>().player = player;
-            xPos = xPos - 100f;
-            
-        }
-        currentWall = platformGroup.GetChild(0).gameObject;
+        
             }
 
     private void wallMove(){
 
-        Rigidbody2D wall = platformGroup.GetChild(0).GetComponent<Rigidbody2D>();
-        wall.AddForce(new Vector2(400f, 0f), ForceMode2D.Impulse);
+        foreach(Transform child in platformGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        GameObject wall = Resources.Load<GameObject>("RunGame/wall");
+        GameObject temp = Instantiate(wall,platformGroup);
+        temp.transform.localPosition = new Vector2(-130,44);
+
+        temp.GetComponent<wallController>().block=temp;
     }
     public void correctRun() {
         wallMove();
@@ -64,12 +58,7 @@ public class runGameController : MonoBehaviour,gameController
         }
     }
     public bool finish(){
-        if (currentWall != null){
-            return false;
-        }else{
-            currentWall = platformGroup.GetChild(0).gameObject;
-            return true;
-        }
+        return player.GetComponent<jumpMode>().jump;
     }
     
 }

@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class wallController : MonoBehaviour
 {
-    public GameObject currentPlatform;
     public GameObject block;
-    public GameObject player;
 
     // Start is called before the first frame update
 
