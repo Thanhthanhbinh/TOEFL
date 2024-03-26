@@ -2,35 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
-public class badgeController : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
+public class badgeController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject badge;
+    public string badge;
     public GameObject title;
-    private bool mouse_over = false;
 
-    void Update()
-    {
-        if (mouse_over)
-        {
-            Debug.Log("Mouse Over");
+    private bool show;
+    public void toggleName()
+    {   
+        if (!show){
+            show = true;
+            title.GetComponentInChildren<TMP_Text>().SetText(badge);
+            Debug.Log(badge);
+        }else{
+            show = false;
+            title.GetComponentInChildren<TMP_Text>().SetText("");
+            Debug.Log("");
         }
+        //If your mouse hovers over the GameObject with the script attached, output this message
+        
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        mouse_over = true;
-        title.GetComponentInChildren<TMP_Text>().SetText(badge.name);
-        Debug.Log(badge.name);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        mouse_over = false;
-        title.GetComponentInChildren<TMP_Text>().SetText("");
-        Debug.Log("");
-    }
     
 }

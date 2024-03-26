@@ -13,9 +13,18 @@ public class questionEditorController : MonoBehaviour
         GameObject temp = Instantiate(questionEditPanel,parent);
         //assign them their own object so they can change UI
         temp.GetComponentInChildren<questionAnswerEditController>().questionPanel = temp;
+        temp.GetComponentInChildren<questionAnswerEditController>().content = new QuestionAnswer("", new List<string>() ,"","easy");
         // Debug.Log(temp.transform.position.y);
-        int siblingNo = parent.transform.childCount-1;
-        temp.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y - 350*siblingNo, temp.transform.position.z);
+        // int siblingNo = parent.transform.childCount-1;
+        // temp.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y - 350*siblingNo, temp.transform.position.z);
+        
+    }
+    public void addQuestion(QuestionAnswer input){
+        GameObject questionEditPanel = Resources.Load<GameObject>("questionAnswerEdit");
+        GameObject temp = Instantiate(questionEditPanel,parent);
+        //assign them their own object so they can change UI
+        temp.GetComponentInChildren<questionAnswerEditController>().questionPanel = temp;
+        temp.GetComponentInChildren<questionAnswerEditController>().content = input;
         
     }
 }

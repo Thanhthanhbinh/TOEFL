@@ -14,6 +14,7 @@ public class QuestionAnswerController : MonoBehaviour
     public GameObject hintButton;
     private Button chosenAnswer;
     private Button correctAnswer;
+    private string correctVal;
     private bool answered;
     private bool hint;
 
@@ -65,6 +66,7 @@ public class QuestionAnswerController : MonoBehaviour
             //assign the button with the correct answer a ref
             if (answer.Substring(3).Trim() == content.getCorrectAnswer()){
                 correctAnswer = answerButton;
+                correctVal = answer;
             }
             counter = counter + 1;
         }
@@ -120,7 +122,6 @@ public class QuestionAnswerController : MonoBehaviour
         hint = false;
         GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
         List<string> answerList = content.getAnswer();
-        string correctVal = content.getCorrectAnswer();
         answerList.Remove(correctVal);
         System.Random r = new System.Random();
         int rInt = r.Next(0, answerList.Count);
