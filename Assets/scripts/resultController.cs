@@ -22,7 +22,7 @@ public class resultController : MonoBehaviour
     private Button chosenScenario;
     void Start()
     {   
-        gameTypeList = new Dictionary<string,string>{{"JellyServe","JumpGame/JumpGame"},{"GarlicAvoid","RunGame/RunGame"},{"SoccerKick","ShootGame/ShootGame"}};
+        gameTypeList = new Dictionary<string,string>{{"JellyServe","JumpGame/JumpGame"},{"GarlicAvoid","RunGame/RunGame"},{"SoccerKick","ShootGame/ShootGame"},{"HoneySteal","AvoidGame/AvoidGame"}};
         showingGameType = new Dictionary<string,string>();
         rewardList = new List<string>{"lives","scenario","badge"};
         setUpImage();

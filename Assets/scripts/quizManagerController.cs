@@ -51,8 +51,8 @@ public class quizManagerController : MonoBehaviour
         answeredQuestions = 0;
         totalQuestions = -1;
         if (ExamInfo.Instance.gameType == "") {
-            gameType = "JumpGame/JumpGame";
-            ExamInfo.Instance.gameType = "JumpGame/JumpGame";
+            gameType = "AvoidGame/AvoidGame";
+            ExamInfo.Instance.gameType = "AvoidGame/AvoidGame";
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
