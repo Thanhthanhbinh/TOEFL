@@ -8,27 +8,24 @@ using UnityEngine.SceneManagement;
 
 public class resultController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject scoreObject;
-    public GameObject title;
-    public Transform badgeContainer;
-    public Transform scenarioContainer;
-    public GameObject rewardButton;
-    public GameObject resultImage;
+    [SerializeField] private GameObject scoreObject;
+    [SerializeField] private GameObject title;
+    [SerializeField] private Transform badgeContainer;
+    [SerializeField] private Transform scenarioContainer;
+    [SerializeField] private Transform canvas;
 
-    private List<string> rewardList;
-    private Dictionary<string,string> gameTypeList ;
+    [SerializeField] private GameObject rewardButton;
+    [SerializeField] private GameObject resultImage;
+
     private Dictionary<string,string> showingGameType;
     private Button chosenScenario;
     void Start()
     {   
-        gameTypeList = new Dictionary<string,string>{{"JellyServe","JumpGame/JumpGame"},{"GarlicAvoid","RunGame/RunGame"},{"SoccerKick","ShootGame/ShootGame"},{"HoneySteal","AvoidGame/AvoidGame"}};
         showingGameType = new Dictionary<string,string>();
-        rewardList = new List<string>{"lives","scenario","badge"};
         setUpImage();
         generateScenario();
-        scoreObject.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.score + "/" + ExamInfo.Instance.total);
-        title.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.state);
+        scoreObject.GetComponentInChildren<Text>().text = ExamInfo.Instance.score + "/" + ExamInfo.Instance.total;
+        title.GetComponent<Text>().text = ExamInfo.Instance.state;
         setUpBadge();
         setUpScenario();
         setUpReward();
@@ -41,7 +38,7 @@ public class resultController : MonoBehaviour
     }
     public void nextSection(){
         if (chosenScenario == null){
-            createMessage("Choose a Scenario before continue to next section.");
+            MessageManager.createMessage("Choose a Scenario before continue to next section.",canvas);
             return;
         }
         int currentSection = 0;
@@ -69,8 +66,8 @@ public class resultController : MonoBehaviour
     }
     public void giveReward(){
         System.Random rnd = new System.Random();
-        int r = rnd.Next(rewardList.Count);
-        ExamInfo.Instance.reward = rewardList[r];
+        int r = rnd.Next(ExamInfo.Instance.rewardList.Count);
+        ExamInfo.Instance.reward = ExamInfo.Instance.rewardList[r];
         Debug.Log(ExamInfo.Instance.reward);
         if (ExamInfo.Instance.reward == "scenario") {
             generateScenario();
@@ -81,7 +78,7 @@ public class resultController : MonoBehaviour
             setUpBadge();
         }
         if (ExamInfo.Instance.reward == "lives"){
-            createMessage("You will have an additional live next section");
+            MessageManager.createMessage("You will have an additional live next section",canvas);
         }
         Destroy(rewardButton);
     }
@@ -105,14 +102,19 @@ public class resultController : MonoBehaviour
     
     private void generateScenario(){
         System.Random rnd = new System.Random();
-        List<string> keyList = new List<string>(gameTypeList.Keys);
+        List<string> keyList = new List<string>(ExamInfo.Instance.gameTypeList.Keys);
         int r = rnd.Next(keyList.Count);
-        string keyvalue = keyList[r];
-        while (showingGameType.ContainsKey(keyvalue)){
+        for (int i = 0; i < 2; i++)
+        {
+            string keyvalue = keyList[r];
+            while (showingGameType.ContainsKey(keyvalue)){
+                r = rnd.Next(keyList.Count);
+                keyvalue = keyList[r];
+            }
+            showingGameType.Add(keyvalue,ExamInfo.Instance.gameTypeList[keyvalue]);
             r = rnd.Next(keyList.Count);
-            keyvalue = keyList[r];
         }
-        showingGameType.Add(keyvalue,gameTypeList[keyvalue]);
+        
     }
     private void setUpScenario(){
         foreach(Transform child in scenarioContainer.transform)
@@ -124,11 +126,10 @@ public class resultController : MonoBehaviour
             GameObject senarioButton = Resources.Load<GameObject>("senarioButton");
             GameObject temp = Instantiate(senarioButton,scenarioContainer);
             Button button = temp.GetComponent<Button>();
-            TMP_Text textUI = temp.GetComponentInChildren<TMP_Text>();
-            textUI.SetText(gameType);
+            temp.GetComponentInChildren<Text>().text = gameType;
             //add listener to update chosen answer
             button.onClick.AddListener(() => { 
-                ExamInfo.Instance.gameType = gameTypeList[gameType];
+                ExamInfo.Instance.gameType = ExamInfo.Instance.gameTypeList[gameType];
                 resetButtonColor();
                 button.GetComponent<Image>().color = Color.yellow;
                 chosenScenario = button;
@@ -156,35 +157,12 @@ public class resultController : MonoBehaviour
     }
 
     private void changeToExam() {
-        Debug.Log("Change Scene to ExamScene");
-        try 
-        {
-            SceneManager.LoadScene("ExamScene");
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamScene.unity");
-        }
+        SceneController.changeToExam();
     }
 
     private void changeToFinal() {
-        Debug.Log("Change Scene to Final");
-        try 
-        {
-            SceneManager.LoadScene("Final");
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Final.unity");
-        }
+        SceneController.changeToFinal();
     }
 
-    private void createMessage(string input){
-        GameObject messageItem = Resources.Load<GameObject>("message");
-        GameObject temp = Instantiate(messageItem,scenarioContainer.parent);
-        temp.transform.position = new Vector2(411,220);
-        temp.GetComponentInChildren<messageController>().updateUI(input);
-    }
+    
 }

@@ -349,5 +349,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f1139443cd74b42874717afb49fcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  badge: No Hints Used
+  badge: Hint-less!
   title: {fileID: 1639883781984476782}

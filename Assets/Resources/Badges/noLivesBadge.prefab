@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f1139443cd74b42874717afb49fcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  badge: No Lives Used
+  badge: Full Lives!
   title: {fileID: 1561535430829258050}
 --- !u!114 &4318270914689648967
 MonoBehaviour:

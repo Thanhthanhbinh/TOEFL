@@ -11,6 +11,8 @@ public class ExamInfo : MonoBehaviour
     public bool hintBadge;
     
     public Dictionary<string,int> badgeList;
+    public Dictionary<string,string> gameTypeList;
+    public List<string> rewardList;
     public int score;
     public int grade;
     public int total;
@@ -21,7 +23,6 @@ public class ExamInfo : MonoBehaviour
     public string reward;
     public string gameType;
 
-    public List<QuestionAnswer> examQuestions = new List<QuestionAnswer>();
     public Dictionary<int, string> section;
 
     public List<QuestionAnswer> questionList = new List<QuestionAnswer>();
@@ -38,6 +39,8 @@ public class ExamInfo : MonoBehaviour
         }
         Instance = this;
         badgeList = new Dictionary<string, int>{{"luckyBadge",0},{"aboveTotalBadge",0},{"allCorrectBadge",0},{"noHintBadge",0},{"noLivesBadge",0}};
+        gameTypeList = new Dictionary<string,string>{{"JellyServe","JumpGame/JumpGame"},{"GarlicAvoid","RunGame/RunGame"},{"SoccerKick","ShootGame/ShootGame"},{"HoneySteal","AvoidGame/AvoidGame"}};
+        rewardList = new List<string>{"lives","scenario","badge"};
         section = new Dictionary<int, string> ();
         examMode = true;
         DontDestroyOnLoad(gameObject);

@@ -5,8 +5,8 @@ using UnityEngine;
 public class jumpGameController : MonoBehaviour,gameController
 {
 
-    public GameObject player;
-    public Transform platformGroup;
+    [SerializeField] private GameObject player;
+    [SerializeField] private Transform platformGroup;
     private List<GameObject> platformList;
     // public GameObject currentPlatform;
 
@@ -14,11 +14,7 @@ public class jumpGameController : MonoBehaviour,gameController
     // Start is called before the first frame update
     private float yPos;
 
-    void Update(){
-
-    }
     public void setup(int total) {
-        Debug.Log("setup");
         GameObject platform = Resources.Load<GameObject>("JumpGame/jumpPlatform");
         foreach(Transform child in platformGroup.transform)
         {
@@ -34,8 +30,7 @@ public class jumpGameController : MonoBehaviour,gameController
             temp.GetComponent<jumpPlatformController>().player = player;
             temp.GetComponent<jumpPlatformController>().platformGroup = platformGroup;
             yPos = yPos + 100f;
-            // Debug.Log(temp);
-            // platformList.Add(temp);
+            
         }
 
         

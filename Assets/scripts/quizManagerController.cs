@@ -5,33 +5,33 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System;
 using Unity.Collections;
+using UnityEngine.UI;
 
 
 public class quizManagerController : MonoBehaviour
 {
-    // Start is called before the first frame update
     private List<GameObject> questionList = new List<GameObject>(); // list of prefab Question Objects
-    //path to the JSON files
     //container for the questions
-    public Transform quizContainer;
+    [SerializeField] private Transform quizContainer;
+    [SerializeField] private Transform canvas;
     //container for the lives
-    public Transform livesContainer;
+    [SerializeField] private Transform livesContainer;
     // reference to the current object
-    public GameObject quizController;
+    [SerializeField] private GameObject quizController;
     // parent of the game to contain it
-    public Transform gameContainer;
-    public GameObject ReloadButton;
-    public GameObject scoreContainer;
+    [SerializeField] private Transform gameContainer;
+    [SerializeField] private GameObject ReloadButton;
+    [SerializeField] private GameObject scoreContainer;
     // the game object
-    public GameObject game;
+    private GameObject game;
     //number of correctly answered questions
-    public int correctAnswersNum;
+    private int correctAnswersNum;
     // number of answered questions in general
-    public int answeredQuestions;
+    private int answeredQuestions;
     // the score
-    public int score;
+    private int score;
     //number of lives
-    public int lives = 1;
+    private int lives ;
 
     private bool liveBadge;
     private bool hintBadge;
@@ -59,9 +59,6 @@ public class quizManagerController : MonoBehaviour
         setUpAll();
     }
 
-    void Update(){
-        // endGame();
-    }
     
     public void setUpAll(){
         setUpQuestion();
@@ -70,38 +67,31 @@ public class quizManagerController : MonoBehaviour
         setUpBadge();
         ReloadButton.SetActive(false);
     }
-    private void createMessage(string input){
-        GameObject messageItem = Resources.Load<GameObject>("message");
-        GameObject temp = Instantiate(messageItem,quizContainer.transform.parent);
-        temp.transform.position = new Vector2(411,220);
-        temp.GetComponentInChildren<messageController>().updateUI(input);
-    }
+    
     private List<QuestionAnswer> getQuestions(){
-        // QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/trial.json");
-        // //get the list of questions
+        // get the list of questions
         QuizManager manager = new QuizManager("");
         List<QuestionAnswer> value = manager.readJSONString(ExamData.Instance.examQuestion);
-        // List<QuestionAnswer> questionPanelList = manager.readJSON();
         
         return new List<QuestionAnswer>(value);
-        // return questionPanelList;
     }
     //set up the questions in the quiz
     public void setUpQuestion(){
         //make a quiz manager with the given path 
         List<QuestionAnswer> questionPanelList = getQuestions();
-        if (questionPanelList == null){
-            createMessage("Reconnect with server to load questions");
-            ReloadButton.SetActive(true);
-            return;
-        }
-        //create prefab of a panel of question
-        GameObject questionPanel = Resources.Load<GameObject>("questionPanel");
         //clear the existing questionPanel being shown
         foreach(Transform child in quizContainer.transform)
         {
             Destroy(child.gameObject);
         }
+        if (questionPanelList == null){
+            MessageManager.createMessage("Reconnect with server to load questions",canvas);
+            ReloadButton.SetActive(true);
+            return;
+        }
+        //create prefab of a panel of question
+        GameObject questionPanel = Resources.Load<GameObject>("questionPanel");
+        
         //initialise the questionPanel and add their variables
         foreach (var item in questionPanelList)
         {   
@@ -126,8 +116,7 @@ public class quizManagerController : MonoBehaviour
         }
         //update the total number of questions
         totalQuestions = questionList.Count;
-        TMP_Text scoreText = scoreContainer.GetComponentInChildren<TMP_Text>();
-        scoreText.SetText(score + "/" + totalQuestions);
+        updateScore();
     }
 
     public void setUpBadge() {
@@ -137,9 +126,8 @@ public class quizManagerController : MonoBehaviour
     public void setUpGame() {
         GameObject gameTypeObject = Resources.Load<GameObject>(gameType);
         GameObject temp = Instantiate(gameTypeObject,gameContainer);
-        temp.transform.localPosition = new Vector2(0,0);
+        temp.transform.localPosition = new Vector2(-1,-25);
         game = temp;
-        Debug.Log(game.GetComponentInChildren<gameController>());
         game.GetComponentInChildren<gameController>().setup(totalQuestions);
     }
     //set up the lives UI
@@ -160,17 +148,14 @@ public class quizManagerController : MonoBehaviour
 
     
     
-    private void increaseScore(){
-        score = score + 1;
-        TMP_Text scoreText = scoreContainer.GetComponentInChildren<TMP_Text>();
-        scoreText.SetText(score + "/" + totalQuestions);
-        
+    private void updateScore(){
+        scoreContainer.GetComponentInChildren<Text>().text = score + "/" + totalQuestions;
     }
     //this increases the score
-    public void updateScore(){
-        increaseScore();
+    public void increaseScore(){
+        score = score + 1;
+        updateScore();
         game.GetComponentInChildren<gameController>().correctRun();
-        
     }
 
     public void increaseAnsweredQuestions(){
@@ -189,7 +174,7 @@ public class quizManagerController : MonoBehaviour
     public void revive(){
         if (lives > 0) {
             liveBadge = false;
-            increaseScore();
+            updateScore();
             lives = lives - 1;
             Destroy(livesContainer.transform.GetChild(0).gameObject);
         }
@@ -205,7 +190,7 @@ public class quizManagerController : MonoBehaviour
 
     public void correctAnswer() {
         increaseAnsweredQuestions();
-        updateScore();
+        increaseScore();
         increaseCorrectAnswersNums();
     }
     public void incorrectAnswer() {
@@ -221,7 +206,8 @@ public class quizManagerController : MonoBehaviour
             // }
 
             item.GetComponentInChildren<QuestionAnswerController>().checkAnswer();
-            yield return new WaitForSeconds(2.0f);
+            // yield return new WaitForSeconds(2.0f);
+            yield return new WaitUntil(() => game.GetComponentInChildren<gameController>().finish() == true);
     }
     IEnumerator checkAll(){
         foreach (var item in questionList)

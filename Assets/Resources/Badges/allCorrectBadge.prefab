@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f1139443cd74b42874717afb49fcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  badge: All Answers Correct
+  badge: All Correct!
   title: {fileID: 4075877252823961505}
 --- !u!114 &3624034687516435116
 MonoBehaviour:

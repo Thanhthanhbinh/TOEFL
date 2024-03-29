@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class jumpMode : MonoBehaviour
 {
-    // Start is called before the first frame update
     public bool jump;
 
     

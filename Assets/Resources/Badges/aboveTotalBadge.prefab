@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f1139443cd74b42874717afb49fcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  badge: Above the Score
+  badge: Above Total!
   title: {fileID: 3767868850952481292}
 --- !u!114 &7232962293342855267
 MonoBehaviour:
