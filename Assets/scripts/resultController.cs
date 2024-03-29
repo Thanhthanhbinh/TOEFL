@@ -61,6 +61,10 @@ public class resultController : MonoBehaviour
         }
         ExamInfo.Instance.section[currentSection] = "past";
         ExamInfo.Instance.section[nextSection] = "current";
+        if (nextSection == 0){
+            changeToFinal();
+            return;
+        }
         changeToExam();
     }
     public void giveReward(){
@@ -148,6 +152,7 @@ public class resultController : MonoBehaviour
         Debug.Log("Result/"+game +state);
         Sprite win = Resources.Load<Sprite>("Result/"+game +state );
         resultImage.GetComponent<Image>().sprite = win;
+        ExamInfo.Instance.pictureList.Add("Result/"+game +state );
     }
 
     private void changeToExam() {
@@ -160,6 +165,19 @@ public class resultController : MonoBehaviour
         {
             Debug.Log(e);
             UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamScene.unity");
+        }
+    }
+
+    private void changeToFinal() {
+        Debug.Log("Change Scene to Final");
+        try 
+        {
+            SceneManager.LoadScene("Final");
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Final.unity");
         }
     }
 

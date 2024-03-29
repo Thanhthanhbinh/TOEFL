@@ -12,6 +12,8 @@ public class QuestionAnswerController : MonoBehaviour
     public QuestionAnswer content; // the question it is associated with
     public GameObject quizController; // the game object that control the logic of the game
     public GameObject hintButton;
+
+    public GameObject checkButton;
     private Button chosenAnswer;
     private Button correctAnswer;
     private string correctVal;
@@ -27,8 +29,10 @@ public class QuestionAnswerController : MonoBehaviour
         hint = true;
         if (content.mode == "hard") {
             Destroy(hintButton);
+            Destroy(checkButton);
         }
         updateUI();
+
     }
 
     // Update is called once per frame
@@ -38,7 +42,9 @@ public class QuestionAnswerController : MonoBehaviour
     }
 
     public void updateUI() {
-        
+        if (ExamInfo.Instance.examMode == false){
+            return;
+        }
         //set up the question text
         TMP_Text questionObject = questionPanel.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
         questionObject.SetText(content.getQuestion());
@@ -71,9 +77,45 @@ public class QuestionAnswerController : MonoBehaviour
             counter = counter + 1;
         }
         
+        
+    }
+
+    private void allInfoUI() {
+        
+        //set up the question text
+        TMP_Text questionObject = questionPanel.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+        questionObject.SetText(content.getQuestion());
+
+        //this is the parent with all question button
+        GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
+        int counter = 0;
+        //get a list of all the answers
+        List<string> answerList = content.getAnswer();
+        //add answer text to all answer button
+        foreach (var answer in answerList)
+        {
+            Button answerButton = answerButtonList.transform.GetChild(counter).gameObject.GetComponent<Button>();
+            TMP_Text textUI = answerButtonList.transform.GetChild(counter).gameObject.GetComponentInChildren<TMP_Text>();
+            textUI.SetText(answer);
+            //assign the button with the correct answer a ref
+            if (answer.Substring(3).Trim() == content.getCorrectAnswer()){
+                correctAnswer = answerButton;
+                correctVal = answer;
+            }
+            if (answer.Substring(3).Trim() == content.getChosenAnswer()){
+                chosenAnswer = answerButton;
+                correctVal = answer;
+            }
+            counter = counter + 1;
+        }
+        
+        
     }
     // this reset the color of answer buttons
     private void resetButtonColor(){
+        if (!ExamInfo.Instance.examMode){
+            return;
+        }
         GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
         for (int i = 0; i < 4; i++)
         {
@@ -87,6 +129,7 @@ public class QuestionAnswerController : MonoBehaviour
     }
     // this checks the answer chosen by the player and change the score and color accordingly
     public void checkAnswer() {
+        ExamInfo.Instance.questionList.Add(content);
         if (answered){
             return;
         }
@@ -108,6 +151,25 @@ public class QuestionAnswerController : MonoBehaviour
         }
         
     }
+    public void showResult() {
+        ExamInfo.Instance.examMode = false;
+        allInfoUI();
+        Destroy(checkButton);
+        Destroy(hintButton);
+        
+        bool result = content.isCorrect();
+        if (chosenAnswer == null){
+            showCorrect();
+            return;
+        }
+        if (result) {
+            chosenAnswer.GetComponent<Image>().color = Color.green;
+            
+        }else {
+            chosenAnswer.GetComponent<Image>().color = Color.red;
+            showCorrect();
+        }
+    }
 
     public bool isAnswered()
     {
@@ -118,6 +180,7 @@ public class QuestionAnswerController : MonoBehaviour
             Debug.Log("hint used");
             return;
         }
+        content.toggleHint();
         ExamInfo.Instance.hintBadge = false;
         hint = false;
         GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
@@ -134,5 +197,6 @@ public class QuestionAnswerController : MonoBehaviour
         }
     }
 
+    
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class ExamInfo : MonoBehaviour
 {
@@ -20,8 +21,15 @@ public class ExamInfo : MonoBehaviour
     public string reward;
     public string gameType;
 
+    public List<QuestionAnswer> examQuestions = new List<QuestionAnswer>();
     public Dictionary<int, string> section;
-    void Start()
+
+    public List<QuestionAnswer> questionList = new List<QuestionAnswer>();
+
+    public List<string> pictureList = new List<string>();
+
+    public bool examMode;
+    void Awake()
     {
         if (Instance != null)
         {
@@ -31,8 +39,11 @@ public class ExamInfo : MonoBehaviour
         Instance = this;
         badgeList = new Dictionary<string, int>{{"luckyBadge",0},{"aboveTotalBadge",0},{"allCorrectBadge",0},{"noHintBadge",0},{"noLivesBadge",0}};
         section = new Dictionary<int, string> ();
+        examMode = true;
         DontDestroyOnLoad(gameObject);
     }
+
+    
 
     
 }

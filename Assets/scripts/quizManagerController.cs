@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Collections;
 
 
 public class quizManagerController : MonoBehaviour
@@ -11,7 +12,6 @@ public class quizManagerController : MonoBehaviour
     // Start is called before the first frame update
     private List<GameObject> questionList = new List<GameObject>(); // list of prefab Question Objects
     //path to the JSON files
-    private string pathStart = "C:/Users/loral/Desktop/unity project/2d platformer sample/PRJ-test";
     //container for the questions
     public Transform quizContainer;
     //container for the lives
@@ -20,7 +20,7 @@ public class quizManagerController : MonoBehaviour
     public GameObject quizController;
     // parent of the game to contain it
     public Transform gameContainer;
-
+    public GameObject ReloadButton;
     public GameObject scoreContainer;
     // the game object
     public GameObject game;
@@ -31,7 +31,7 @@ public class quizManagerController : MonoBehaviour
     // the score
     public int score;
     //number of lives
-    public int lives;
+    public int lives = 1;
 
     private bool liveBadge;
     private bool hintBadge;
@@ -41,7 +41,7 @@ public class quizManagerController : MonoBehaviour
     private int totalQuestions;
     // private bool hint;
     private int incorrectStreak;
-    void Start()
+    void Awake()
     {   
         lives = 3;
         if (ExamInfo.Instance.reward == "lives") {
@@ -56,23 +56,45 @@ public class quizManagerController : MonoBehaviour
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
-        setUpQuestion();
-        setUpLives();
-        setUpGame();
-        setUpBadge();
+        setUpAll();
     }
 
     void Update(){
         // endGame();
     }
     
+    public void setUpAll(){
+        setUpQuestion();
+        setUpLives();
+        setUpGame();
+        setUpBadge();
+        ReloadButton.SetActive(false);
+    }
+    private void createMessage(string input){
+        GameObject messageItem = Resources.Load<GameObject>("message");
+        GameObject temp = Instantiate(messageItem,quizContainer.transform.parent);
+        temp.transform.position = new Vector2(411,220);
+        temp.GetComponentInChildren<messageController>().updateUI(input);
+    }
+    private List<QuestionAnswer> getQuestions(){
+        // QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/trial.json");
+        // //get the list of questions
+        QuizManager manager = new QuizManager("");
+        List<QuestionAnswer> value = manager.readJSONString(ExamData.Instance.examQuestion);
+        // List<QuestionAnswer> questionPanelList = manager.readJSON();
+        
+        return new List<QuestionAnswer>(value);
+        // return questionPanelList;
+    }
     //set up the questions in the quiz
     public void setUpQuestion(){
         //make a quiz manager with the given path 
-        QuizManager manager = new QuizManager(pathStart + "/Assets/examJSON/trial.json");
-        //get the list of questions
-        List<QuestionAnswer> questionPanelList = manager.readJSON();
-        
+        List<QuestionAnswer> questionPanelList = getQuestions();
+        if (questionPanelList == null){
+            createMessage("Reconnect with server to load questions");
+            ReloadButton.SetActive(true);
+            return;
+        }
         //create prefab of a panel of question
         GameObject questionPanel = Resources.Load<GameObject>("questionPanel");
         //clear the existing questionPanel being shown
@@ -213,9 +235,9 @@ public class quizManagerController : MonoBehaviour
 
     private void setUpResult(){
         ExamInfo.Instance.state = "YOU WIN";
-        ExamInfo.Instance.score = score;
-        ExamInfo.Instance.total = totalQuestions;
-        ExamInfo.Instance.grade = correctAnswersNum;
+        ExamInfo.Instance.score += score;
+        ExamInfo.Instance.total += totalQuestions;
+        ExamInfo.Instance.grade += correctAnswersNum;
         if (score > totalQuestions){
             ExamInfo.Instance.badgeList["aboveTotalBadge"] += 1;
         }

@@ -22,8 +22,7 @@ public class QuestionAnswer
     public string correctAnswer; // the correct answer e.g 'have'
     private string chosenAnswer; // the chosen answer e.g 'have'
 
-    [SerializeField]
-
+    [SerializeField] private bool hintUsed;
 
     public QuestionAnswer(string inputQuestion, List<string> inputAnswer,string inputCorrectAnswer,string inputMode) {
         question = inputQuestion;
@@ -31,6 +30,7 @@ public class QuestionAnswer
         answer = inputAnswer;
         mode = inputMode;
         section = 1;
+        hintUsed = false;
         // dispalyAnswers();
     }
 
@@ -46,6 +46,13 @@ public class QuestionAnswer
         section = inputSection;
     }
 
+    public void toggleHint() {
+        hintUsed = false;
+    }
+
+    public bool isHintUsed() {
+        return hintUsed;
+    }
 
 
     private string convertNumToLetter(int num) {
@@ -85,6 +92,10 @@ public class QuestionAnswer
 
     public string getCorrectAnswer(){
         return correctAnswer;
+    }
+
+    public string getChosenAnswer(){
+        return chosenAnswer;
     }
 
     public void setMode(string inputMode){

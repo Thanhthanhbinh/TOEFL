@@ -1364,6 +1364,7 @@ MonoBehaviour:
     correctAnswer: 
   quizController: {fileID: 0}
   hintButton: {fileID: 7578881500515372621}
+  checkButton: {fileID: 3527031434629481900}
 --- !u!1 &7315150123647662686
 GameObject:
   m_ObjectHideFlags: 0

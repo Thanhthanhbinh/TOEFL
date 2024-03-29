@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Unity.Collections;
 
 [System.Serializable]
 public class QuizManager 
@@ -10,49 +11,27 @@ public class QuizManager
     private List<GameObject> questionList; // list of Question Objects
     private string jsonFileName = ""; //name of question file
 
+
     public QuizManager(string inputFileName) {
         jsonFileName = inputFileName;
     }
 
     // read jsonFileName to populate questionList
     public List<QuestionAnswer> readJSON() {
-        // List<TestingQ> test = new List<TestingQ>() ;
-        // TestingQ temp = new TestingQ();
-        // temp.question = "What is past tense of 'have'?";
-        // temp.answer = new List<string> {"had", "have", "haved", "haded"};
-        // temp.correctAnswer = "had";
-
-        // TempQuestionList trial = new TempQuestionList();
-        // test.Add(temp);
-        // trial.data = test;
-
-        
-        // string json = JsonUtility.ToJson(trial);
-        // Debug.Log("json.ToString()");
-        // Debug.Log(json.ToString());
-
-        // TempQuestionList jsonData = JsonUtility.FromJson<TempQuestionList>(json);
-        // Debug.Log(jsonData.data);
-        // foreach (var item in jsonData.data)
-        // {
-        //     foreach (var i in item.answer)
-        //         {
-        //             Debug.Log(i);
-                    
-        //         }
-            
-        // }
-
         string jsonString = File.ReadAllText(jsonFileName);
         // Debug.Log(jsonString);
         TempQuestionList jsonData;
         jsonData = JsonUtility.FromJson<TempQuestionList>(jsonString);
-
         return jsonData.data;
-        
         
     }
 
+    public List<QuestionAnswer> readJSONString(FixedString4096Bytes jsonString) {
+        string value = jsonString.ToString();
+        TempQuestionList jsonData;
+        jsonData = JsonUtility.FromJson<TempQuestionList>(value);
+        return jsonData.data;
+    }
     // go through questionList and call generateUI on them
     public void generateQuestions() {
         

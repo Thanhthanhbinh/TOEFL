@@ -9,12 +9,11 @@ public class questionAnswerEditController : MonoBehaviour
 {
     public GameObject questionPanel;
     public QuestionAnswer content;
-    public int answerNum = 4;
-    public Transform answerContainer;
-    public GameObject questionInput;
-    public GameObject sectionInput;
-    public GameObject correctInput;
-    public GameObject modeInput;
+    [SerializeField] private Transform answerContainer;
+    [SerializeField] private GameObject questionInput;
+    [SerializeField] private GameObject sectionInput;
+    [SerializeField] private GameObject correctInput;
+    [SerializeField] private GameObject modeInput;
     private List<string> answerList;
     // Start is called before the first frame update
     void Start()
