@@ -51,8 +51,8 @@ public class quizManagerController : MonoBehaviour
         answeredQuestions = 0;
         totalQuestions = -1;
         if (ExamInfo.Instance.gameType == "") {
-            gameType = "AvoidGame/AvoidGame";
-            ExamInfo.Instance.gameType = "AvoidGame/AvoidGame";
+            gameType = "JumpGame/JumpGame";
+            ExamInfo.Instance.gameType = "JumpGame/JumpGame";
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
@@ -204,7 +204,7 @@ public class quizManagerController : MonoBehaviour
             //     Debug.Log("not yet");
             //     yield return new WaitForSeconds(1f);
             // }
-
+            Debug.Log("cehcked");
             item.GetComponentInChildren<QuestionAnswerController>().checkAnswer();
             // yield return new WaitForSeconds(2.0f);
             yield return new WaitUntil(() => game.GetComponentInChildren<gameController>().finish() == true);

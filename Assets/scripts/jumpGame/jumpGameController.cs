@@ -9,9 +9,7 @@ public class jumpGameController : MonoBehaviour,gameController
     [SerializeField] private Transform platformGroup;
     private List<GameObject> platformList;
     // public GameObject currentPlatform;
-
-    private int platformCounter;
-    // Start is called before the first frame update
+    private GameObject currentPlatform;
     private float yPos;
 
     public void setup(int total) {
@@ -20,37 +18,43 @@ public class jumpGameController : MonoBehaviour,gameController
         {
             Destroy(child.gameObject);
         }
-        yPos = 46f;
-        for (int i = 0; i < total; i++)
+        yPos = 65f;
+        for (int i = 0; i < total+1; i++)
         {
             
             GameObject temp = Instantiate(platform,platformGroup);
-            temp.transform.position = new Vector2(temp.transform.position.x,yPos);
+            temp.transform.localPosition = new Vector2(temp.transform.localPosition.x,yPos);
             temp.GetComponent<jumpPlatformController>().currentPlatform = temp;
             temp.GetComponent<jumpPlatformController>().player = player;
             temp.GetComponent<jumpPlatformController>().platformGroup = platformGroup;
+            
             yPos = yPos + 100f;
             
         }
-
-        
-
     }
+    
     public void correctRun() {
-        
+        if (player.GetComponent<playerController>().touching == false){
+            Debug.Log("on air");
+            return;
+        }
         Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
-        playerRigid.AddForce(new Vector2(0f, 450f), ForceMode2D.Impulse);
+        playerRigid.AddForce(new Vector2(0f, 600f), ForceMode2D.Impulse);
+        player.GetComponent<playerController>().touching = false;
     }
 
     public void incorrectRun() {
-        
+        if (player.GetComponent<playerController>().touching == false){
+            Debug.Log("on air");
+            return;
+        }
         Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
         playerRigid.AddForce(new Vector2(0f, 300f), ForceMode2D.Impulse);
+        player.GetComponent<playerController>().touching = false;
     }
     
     public bool finish(){
         // Debug.Log("is the game finished");
-        // Debug.Log(player.GetComponent<playerController>().touching);
         return player.GetComponent<playerController>().touching;
     }
 }

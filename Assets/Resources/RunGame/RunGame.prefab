@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7077873578875070024}
-  enemyGroup: {fileID: 0}
+  enemyGroup: {fileID: 1449731532669320632}
   block: {fileID: 5355156216920823132}
   projectile: RunGame/wall
 --- !u!1 &7077873578875070024

@@ -5,18 +5,17 @@ using UnityEngine;
 public class playerController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool touching;
-    void Start()
-    {
-        touching = true;
-    }
+    public bool touching = true;
+    [SerializeField] private GameObject player;
 
-    // Update is called once per frame
-    void OnCollisionEnter2D (Collision2D collision){
-        touching = true;
+    void Update() {
+        if (player.GetComponent<Rigidbody2D>().IsSleeping()){
+            touching = true;
+        }else{
+            touching = false;
+        }
     }
+        
+    
 
-    void OnCollisionExit2D (Collision2D collision){
-        touching = false;
-    }
 }

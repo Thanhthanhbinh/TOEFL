@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -247}
+  m_AnchoredPosition: {x: 7, y: 114}
   m_SizeDelta: {x: 160, y: 78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7077873578590630294
@@ -574,6 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touching: 0
+  player: {fileID: 7077873578875070024}
 --- !u!95 &263030500089262320
 Animator:
   serializedVersion: 4
@@ -1018,11 +1019,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1828531977787096058, guid: 402969995d21cae46bfb90e23729ae51, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.082901
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1828531977787096058, guid: 402969995d21cae46bfb90e23729ae51, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 65.10418
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 1828531977787096058, guid: 402969995d21cae46bfb90e23729ae51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
