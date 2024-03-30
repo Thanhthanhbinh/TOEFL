@@ -32,11 +32,9 @@ public class blockerController : MonoBehaviour
                 speed = -500f;
             }else {
                 speed = 0f;
-                Debug.Log("done");
                 done = true;
             }
         }else{
-            Debug.Log("moving");
             done = false;
         }
         
