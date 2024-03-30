@@ -51,8 +51,8 @@ public class quizManagerController : MonoBehaviour
         answeredQuestions = 0;
         totalQuestions = -1;
         if (ExamInfo.Instance.gameType == "") {
-            gameType = "JumpGame/JumpGame";
-            ExamInfo.Instance.gameType = "JumpGame/JumpGame";
+            gameType = "ShootGame/ShootGame";
+            ExamInfo.Instance.gameType = "ShootGame/ShootGame";
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
@@ -174,7 +174,7 @@ public class quizManagerController : MonoBehaviour
     public void revive(){
         if (lives > 0) {
             liveBadge = false;
-            updateScore();
+            increaseScore();
             lives = lives - 1;
             Destroy(livesContainer.transform.GetChild(0).gameObject);
         }

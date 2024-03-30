@@ -7,13 +7,14 @@ public class jumpGameController : MonoBehaviour,gameController
 
     [SerializeField] private GameObject player;
     [SerializeField] private Transform platformGroup;
+    [SerializeField] private string gameType;
     private List<GameObject> platformList;
     // public GameObject currentPlatform;
     private GameObject currentPlatform;
     private float yPos;
 
     public void setup(int total) {
-        GameObject platform = Resources.Load<GameObject>("JumpGame/jumpPlatform");
+        GameObject platform = Resources.Load<GameObject>(gameType+"/jumpPlatform");
         foreach(Transform child in platformGroup.transform)
         {
             Destroy(child.gameObject);

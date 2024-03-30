@@ -9,9 +9,10 @@ public class blockerController : MonoBehaviour
     public GameObject blocker;
     public GameObject player;
     private float speed;
+
+    public bool done;
     // Start is called before the first frame update
     void Update() {
-        
         if (state=="incorrect"){//move to block
             if (blocker.transform.localPosition.x <  player.transform.localPosition.x) {
                 speed = 500f;
@@ -31,11 +32,16 @@ public class blockerController : MonoBehaviour
                 speed = -500f;
             }else {
                 speed = 0f;
+                Debug.Log("done");
+                done = true;
             }
+        }else{
+            Debug.Log("moving");
+            done = false;
         }
+        
         blocker.transform.localPosition = new Vector2(blocker.transform.localPosition.x + (speed*Time.deltaTime),blocker.transform.localPosition.y);  
-        // Debug.Log(state);
-        //275 for x
+        
         
     }
     private void showEffect() {

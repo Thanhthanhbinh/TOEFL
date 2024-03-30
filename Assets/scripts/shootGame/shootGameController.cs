@@ -11,15 +11,15 @@ public class shootGameController : MonoBehaviour,gameController
 
     public GameObject blocker;
     
-    // public GameObject currentPlatform;
-
-    // Start is called before the first frame update
+    // void Start(){
+    //     setup(0);
+    // }
 
     
     public void setup(int total) {
         Debug.Log("setup");
         blocker.GetComponent<blockerController>().state = "done";
-        blocker.transform.position = new Vector2(55f,blocker.transform.position.y);  
+        blocker.transform.localPosition = new Vector2(100f,blocker.transform.localPosition.y);  
     }
     private void shootBullet() {
         foreach(Transform child in bulletGroup.transform)
@@ -46,7 +46,7 @@ public class shootGameController : MonoBehaviour,gameController
 
     }
     public bool finish(){
-        return bulletGroup.childCount == 0;
+        return blocker.GetComponent<blockerController>().done && bulletGroup.childCount == 0;
     }
     
 }

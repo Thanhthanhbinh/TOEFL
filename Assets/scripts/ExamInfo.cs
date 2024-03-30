@@ -39,7 +39,7 @@ public class ExamInfo : MonoBehaviour
         }
         Instance = this;
         badgeList = new Dictionary<string, int>{{"luckyBadge",0},{"aboveTotalBadge",0},{"allCorrectBadge",0},{"noHintBadge",0},{"noLivesBadge",0}};
-        gameTypeList = new Dictionary<string,string>{{"JellyServe","JumpGame/JumpGame"},{"GarlicAvoid","RunGame/RunGame"},{"SoccerKick","ShootGame/ShootGame"},{"HoneySteal","AvoidGame/AvoidGame"}};
+        gameTypeList = new Dictionary<string,string>{{"Jelly Serve","JumpGame/JumpGame"},{"Fallen Bird","FlyGame/FlyGame"},{"Soccer Kick","ShootGame/ShootGame"},{"Honey Steal","AvoidGame/AvoidGame"}};
         rewardList = new List<string>{"lives","scenario","badge"};
         section = new Dictionary<int, string> ();
         examMode = true;
