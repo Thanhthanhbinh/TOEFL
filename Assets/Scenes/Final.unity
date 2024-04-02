@@ -329,7 +329,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SUBMIT
+  m_Text: exit
 --- !u!224 &57316839 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5809762479256492748, guid: 634ccc8933969a343b8809d6a47c0f7b, type: 3}

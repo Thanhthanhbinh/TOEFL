@@ -78,7 +78,7 @@ public class finalController : MonoBehaviour
         }
     }
     public void submitExam(){
-        
+        SceneController.changeToMenu();
         
     }
 }

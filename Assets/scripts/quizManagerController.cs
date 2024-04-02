@@ -50,8 +50,8 @@ public class quizManagerController : MonoBehaviour
 
     public void startExam() {
         if (ExamInfo.Instance.gameType == "") {
-            gameType = "JumpGame/JumpGame";
-            ExamInfo.Instance.gameType = "JumpGame/JumpGame";
+            gameType = "FlyGame/FlyGame";
+            ExamInfo.Instance.gameType = "FlyGame/FlyGame";
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
