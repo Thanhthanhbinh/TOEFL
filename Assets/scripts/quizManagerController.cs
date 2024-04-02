@@ -22,6 +22,8 @@ public class quizManagerController : MonoBehaviour
     [SerializeField] private Transform gameContainer;
     [SerializeField] private GameObject ReloadButton;
     [SerializeField] private GameObject scoreContainer;
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private GameObject hostPanel;
     // the game object
     private GameObject game;
     //number of correctly answered questions
@@ -32,35 +34,39 @@ public class quizManagerController : MonoBehaviour
     private int score;
     //number of lives
     private int lives ;
-
-    private bool liveBadge;
-    private bool hintBadge;
-    // game type
-    public string gameType;
     //number of total questions
     private int totalQuestions;
     // private bool hint;
     private int incorrectStreak;
+    private bool liveBadge;
+    private bool hintBadge;
+    // game type
+    public string gameType;
+    
     void Awake()
     {   
-        lives = 3;
-        if (ExamInfo.Instance.reward == "lives") {
-            lives = 4;
-        }
-        incorrectStreak = 0;
-        answeredQuestions = 0;
-        totalQuestions = -1;
+        startExam();
+    }
+
+    public void startExam() {
         if (ExamInfo.Instance.gameType == "") {
-            gameType = "ShootGame/ShootGame";
-            ExamInfo.Instance.gameType = "ShootGame/ShootGame";
+            gameType = "JumpGame/JumpGame";
+            ExamInfo.Instance.gameType = "JumpGame/JumpGame";
         }else {
             gameType = ExamInfo.Instance.gameType;
         }
+        if (UserData.Instance.playerType == "host"){
+            hostPanel.SetActive(true);
+            hostPanel.GetComponentInChildren<hostPanelController>().setUpHostPanel();
+            return;
+        }else{
+            hostPanel.SetActive(false);
+        }
         setUpAll();
+        resultPanel.SetActive(false);
     }
-
-    
-    public void setUpAll(){
+    private void setUpAll(){
+        setUpVar();
         setUpQuestion();
         setUpLives();
         setUpGame();
@@ -68,22 +74,36 @@ public class quizManagerController : MonoBehaviour
         ReloadButton.SetActive(false);
     }
     
+    private void setUpVar() {
+        correctAnswersNum = 0;
+        answeredQuestions = 0;
+        score = 0;
+        totalQuestions = 0;
+        incorrectStreak = 0;
+        lives = 3;
+        if (ExamInfo.Instance.reward == "lives") {
+            lives = 4;
+        }
+    }
     private List<QuestionAnswer> getQuestions(){
         // get the list of questions
         QuizManager manager = new QuizManager("");
+        // get the list of questions fromt the FixedString4096Bytes
         List<QuestionAnswer> value = manager.readJSONString(ExamData.Instance.examQuestion);
-        
         return new List<QuestionAnswer>(value);
     }
+
     //set up the questions in the quiz
     public void setUpQuestion(){
         //make a quiz manager with the given path 
         List<QuestionAnswer> questionPanelList = getQuestions();
+        questionList = new List<GameObject>();
         //clear the existing questionPanel being shown
         foreach(Transform child in quizContainer.transform)
         {
             Destroy(child.gameObject);
         }
+        // in case client screen is faster than the host to get the questions
         if (questionPanelList == null){
             MessageManager.createMessage("Reconnect with server to load questions",canvas);
             ReloadButton.SetActive(true);
@@ -95,7 +115,7 @@ public class quizManagerController : MonoBehaviour
         //initialise the questionPanel and add their variables
         foreach (var item in questionPanelList)
         {   
-            Debug.Log(ExamInfo.Instance.section);
+            //get the section
             if (ExamInfo.Instance.section.Count == 0){
                 ExamInfo.Instance.section[item.section] = "current" ;
             }
@@ -108,9 +128,9 @@ public class quizManagerController : MonoBehaviour
                 temp.GetComponentInChildren<QuestionAnswerController>().questionPanel = temp;
                 // assign the corresponding questionAnswer object
                 temp.GetComponentInChildren<QuestionAnswerController>().content = item;
-                //
+                // assign the corresponding quizController object
                 temp.GetComponentInChildren<QuestionAnswerController>().quizController = quizController;
-
+                // add the question in the current section
                 questionList.Add(temp);
             }
         }
@@ -119,15 +139,23 @@ public class quizManagerController : MonoBehaviour
         updateScore();
     }
 
+
     public void setUpBadge() {
         liveBadge= true;
         ExamInfo.Instance.hintBadge = true;
     }
     public void setUpGame() {
+        //remove previous game
+        foreach(Transform child in gameContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        //initialise the game and add it in
         GameObject gameTypeObject = Resources.Load<GameObject>(gameType);
         GameObject temp = Instantiate(gameTypeObject,gameContainer);
         temp.transform.localPosition = new Vector2(-1,-25);
         game = temp;
+        //set up the game
         game.GetComponentInChildren<gameController>().setup(totalQuestions);
     }
     //set up the lives UI
@@ -138,26 +166,28 @@ public class quizManagerController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        //initialise the live 
+        //initialise the lives elements 
         for (int i = 0; i < lives; i++)
         {
             GameObject temp = Instantiate(live,livesContainer);
         }
             
     }
-
     
     
     private void updateScore(){
+        //change the score
         scoreContainer.GetComponentInChildren<Text>().text = score + "/" + totalQuestions;
     }
-    //this increases the score
+    //this increases the score and update it and play the game
     public void increaseScore(){
         score = score + 1;
         updateScore();
         game.GetComponentInChildren<gameController>().correctRun();
     }
 
+    // increase the number of answered questions 
+    // add more lives if incorrect streak is hit
     public void increaseAnsweredQuestions(){
         answeredQuestions = answeredQuestions + 1;
         var error = ((float)incorrectStreak / (float)totalQuestions)*100;
@@ -171,6 +201,7 @@ public class quizManagerController : MonoBehaviour
         correctAnswersNum = correctAnswersNum + 1;
     }
 
+    // use live
     public void revive(){
         if (lives > 0) {
             liveBadge = false;
@@ -180,6 +211,7 @@ public class quizManagerController : MonoBehaviour
         }
     }
 
+    //add new lives
     public void moreLives() {
         
         lives = lives + 1;
@@ -187,28 +219,29 @@ public class quizManagerController : MonoBehaviour
         GameObject temp = Instantiate(live,livesContainer);
         
     }
-
+    
+    //run for correct question
     public void correctAnswer() {
         increaseAnsweredQuestions();
         increaseScore();
         increaseCorrectAnswersNums();
     }
+    //run for incorrect question
     public void incorrectAnswer() {
         incorrectStreak = incorrectStreak + 1;
         increaseAnsweredQuestions();
         game.GetComponentInChildren<gameController>().incorrectRun();
     }
+
+    //check only one question and wait for check to be done
     IEnumerator checkOne(GameObject item) {
-            // Debug.Log(questionList.Count);
-            // while (!game.GetComponentInChildren<gameController>().finish()) {
-            //     Debug.Log("not yet");
-            //     yield return new WaitForSeconds(1f);
-            // }
+            
             Debug.Log("cehcked");
             item.GetComponentInChildren<QuestionAnswerController>().checkAnswer();
             // yield return new WaitForSeconds(2.0f);
             yield return new WaitUntil(() => game.GetComponentInChildren<gameController>().finish() == true);
     }
+    //check all question in exam
     IEnumerator checkAll(){
         foreach (var item in questionList)
         {   
@@ -218,7 +251,7 @@ public class quizManagerController : MonoBehaviour
             
         }
     }
-
+    // decide results
     private void setUpResult(){
         ExamInfo.Instance.state = "YOU WIN";
         ExamInfo.Instance.score += score;
@@ -240,34 +273,19 @@ public class quizManagerController : MonoBehaviour
             ExamInfo.Instance.state = "YOU LOSE";
         }
     }
-    IEnumerator changeScence(){
+    // show the result panel
+    IEnumerator showResult(){
         setUpResult();
-        string scence = "ResultScene";
-        
-        Debug.Log("Change Scene to result screen");
-        try 
-        {
-            SceneManager.LoadScene(scence);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/" + scence+ ".unity");
-        }
+        resultPanel.SetActive(true);
+        resultPanel.GetComponentInChildren<resultController>().setUpResult();
         yield return new WaitForSeconds(1f);
     }
 
     IEnumerator ending(){
         yield return StartCoroutine(checkAll());
-        yield return StartCoroutine(changeScence());
+        yield return StartCoroutine(showResult());
     }
     public void endGame() {
-        // Debug.Log(answeredQuestions);
-        // if (answeredQuestions != totalQuestions) {
-        //     return;
-        // }
-        
         StartCoroutine(ending());
-        
     }
 }

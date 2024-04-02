@@ -29,8 +29,11 @@ public class teacherDashboardController : MonoBehaviour
     [SerializeField] private GameObject examText;
     [SerializeField] private GameObject examInfo;
     [SerializeField] private GameObject examPanel;
+    [SerializeField] private GameObject clientPanel;
+    [SerializeField] private GameObject clientExamInfo;
     [SerializeField] private GameObject relayObject;
     [SerializeField] private Transform canvas;
+    [SerializeField] private GameObject createExamButton;
     private int maxPlayers;
     private string filePath;
     // public List<QuestionAnswer> ExamData = new List<QuestionAnswer>();
@@ -40,6 +43,16 @@ public class teacherDashboardController : MonoBehaviour
         listExams();
         //only show examPanel when an exam is happening
         examPanel.SetActive(false);
+        if (UserData.Instance.playerType == "client"){
+            clientPanel.SetActive(true);
+        }
+        if (UserData.Instance.playerType == "host"){
+            clientPanel.SetActive(false);
+        }
+        if (UserData.Instance.playerType == ""){
+            clientPanel.SetActive(false);
+        }
+        clientExamInfo.GetComponent<Text>().text = "Joined exam Code \n" + UserData.Instance.joinCode;
     }
 
 
@@ -47,7 +60,6 @@ public class teacherDashboardController : MonoBehaviour
     public void updateStudentNumber(System.Single input){
         maxPlayers = (int)input;
         studentText.GetComponent<Text>().text = maxPlayers + " Students";
-        ExamData.Instance.maxPlayers = maxPlayers;
     }
 
     private void updateLobbyData(string input) {
@@ -113,7 +125,7 @@ public class teacherDashboardController : MonoBehaviour
     }
 
     public void setUpExamPanel(){
-        examInfo.GetComponent<Text>().text = "Exam Code \n" + ExamData.Instance.joinCode;
+        examInfo.GetComponent<Text>().text = "Exam Code \n" + UserData.Instance.joinCode;
         examPanel.SetActive(true);
     }
     public void createGame(){
@@ -136,7 +148,9 @@ public class teacherDashboardController : MonoBehaviour
     }
     public void endGame() {
         relayObject.GetComponent<RelayController>().EndGame();
+        createExamButton.SetActive(true);
         examPanel.SetActive(false);
+        clientPanel.SetActive(false);
     }
     
 }

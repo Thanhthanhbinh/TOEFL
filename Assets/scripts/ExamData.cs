@@ -11,8 +11,7 @@ public class ExamData : MonoBehaviour
     public FixedString4096Bytes examQuestion;
 
     public FixedString4096Bytes resultData;
-    public int maxPlayers;
-    public string joinCode;
+    
     
 
     void Awake()

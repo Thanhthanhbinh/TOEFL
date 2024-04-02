@@ -32,11 +32,14 @@ public class QuizManager
         jsonData = JsonUtility.FromJson<TempQuestionList>(value);
         return jsonData.data;
     }
-    // go through questionList and call generateUI on them
-    public void generateQuestions() {
-        
-        // go though each read JSON and spawn new questionPanel prefab
+
+    public List<QuestionAnswer> readJSONStringResult(FixedString4096Bytes jsonString) {
+        string value = jsonString.ToString();
+        StudentData jsonData;
+        jsonData = JsonUtility.FromJson<StudentData>(value);
+        return jsonData.data;
     }
+    
 }
     //classes used to get data from JSON file
 

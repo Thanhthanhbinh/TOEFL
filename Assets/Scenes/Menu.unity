@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &89111914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 89111916}
+  - component: {fileID: 89111915}
+  m_Layer: 0
+  m_Name: UserManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &89111915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89111914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac1360644b2fac44b5b711cb59f2054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerType: 
+--- !u!4 &89111916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89111914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 951.1019, y: 546.1217, z: -16.471388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199054866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,12 +1622,12 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 2227883400977471235, guid: d89be8df8b67bb64599f3bf33c208665, type: 3}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 1612422700224866650, guid: 5797ac45569b42a45821d5b9b9b44a6a, type: 3}
+      Prefab: {fileID: 2227883400977471235, guid: d89be8df8b67bb64599f3bf33c208665, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
-      Prefab: {fileID: 2227883400977471235, guid: d89be8df8b67bb64599f3bf33c208665, type: 3}
+      Prefab: {fileID: 1612422700224866650, guid: 5797ac45569b42a45821d5b9b9b44a6a, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}

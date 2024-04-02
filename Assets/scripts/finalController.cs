@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using TMPro;
 public class finalController : MonoBehaviour
 {
-    public GameObject pictureContainer;
-    public GameObject badgeContainer;
-    public GameObject questionContainer;
-    public GameObject score;
-    public GameObject grade;
+    [SerializeField] private GameObject pictureContainer;
+    [SerializeField] private GameObject badgeContainer;
+    [SerializeField] private GameObject questionContainer;
+    [SerializeField] private GameObject score;
+    [SerializeField] private GameObject grade;
 
     void Start(){
         setUpBadge();
@@ -78,30 +78,11 @@ public class finalController : MonoBehaviour
         }
     }
     public void submitExam(){
-        StudentData final = new StudentData(ExamInfo.Instance.questionList, ExamInfo.Instance.grade, ExamInfo.Instance.total);
-        string json = JsonUtility.ToJson(final);
-        ExamData.Instance.resultData = json;
-        //send json file to host
-        //exit relay
+        
+        
     }
 }
 
 
 
-    // the JSON file data is in the form of a list of QuestionAnswer
-    [System.Serializable]
-    public class StudentData
-    {
-        public List<QuestionAnswer> data; 
-
-        public int grade;
-        public int maximumGrade;
-        // the json must have 'data' as the key for the list of object
-
-        public StudentData(List<QuestionAnswer> inputData, int inputGrade, int inputMax){
-            data = inputData;
-            grade = inputGrade;
-            maximumGrade = inputMax;
-        }
-
-    }
+    

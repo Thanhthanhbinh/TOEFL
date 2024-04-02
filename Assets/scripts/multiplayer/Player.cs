@@ -7,10 +7,12 @@ using Unity.Collections;
 public class Player : NetworkBehaviour
 
 {
+    [SerializeField] private GameObject player;
     public NetworkVariable<FixedString4096Bytes> questionList; //this is network object
-    public NetworkVariable<int> maxPlayersVal = new NetworkVariable<int>(0);
-
+    public NetworkVariable<int> submitNumber = new NetworkVariable<int>(0);
     public NetworkList<FixedString4096Bytes> resultList;
+    public NetworkVariable<FixedString4096Bytes> result;
+    public 
 
     void Awake()
     {
@@ -18,21 +20,41 @@ public class Player : NetworkBehaviour
     }
     public override void OnNetworkSpawn(){
         Debug.Log("a player has join");
-    }
-    
-    void Update(){
+        submitNumber.Value = 0;
         if (IsServer){
             questionList.Value = ExamData.Instance.examQuestion;
-            maxPlayersVal.Value = ExamData.Instance.maxPlayers;
         } else {
             ExamData.Instance.examQuestion = questionList.Value;
-            ExamData.Instance.maxPlayers = maxPlayersVal.Value ;
-            resultList.Add(ExamData.Instance.resultData);
         }
-        Debug.Log(resultList);
-
     }
     
+    public bool updateResultList(FixedString4096Bytes input) {
+        if (!IsServer){
+            if (input != ""){
+                updateResultListServerRpc(input);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    
+
+    public int getSubmitNumber(){
+        return submitNumber.Value;
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void updateResultListServerRpc(FixedString4096Bytes input)
+    {   
+        
+        
+            resultList.Add(input);
+            Debug.Log(resultList[0]);
+            submitNumber.Value += 1;
+        
+    }
 
     
 }

@@ -55,6 +55,7 @@ public class RelayController : MonoBehaviour
     public async void CreateGame(int maxPlayer) {
         await Authenticate();
         button.SetActive(false);
+        UserData.Instance.playerType = "host";
         //get an allocation on the relay service for the game
         Allocation allocatedRelay = await RelayService.Instance.CreateAllocationAsync(maxPlayer);
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocatedRelay.AllocationId);
@@ -67,7 +68,7 @@ public class RelayController : MonoBehaviour
                                     allocatedRelay.ConnectionData);
         // NetworkManager.Singleton.StartServer();
         NetworkManager.Singleton.StartHost();
-        ExamData.Instance.joinCode =  joinCode;
+        UserData.Instance.joinCode =  joinCode;
         screenController.GetComponent<teacherDashboardController>().setUpExamPanel();
     }
 
@@ -77,13 +78,15 @@ public class RelayController : MonoBehaviour
 
     public void EndGame() {
         LogOut();
-        ExamData.Instance.joinCode = "";
-        button.SetActive(true);
+        UserData.Instance.playerType = "";
+        UserData.Instance.joinCode = "";
         NetworkManager.Singleton.Shutdown();
     }
 
     public async void JoinGame(string joinCode) {
         await Authenticate();
+        UserData.Instance.playerType = "client";
+        UserData.Instance.joinCode = joinCode;
         button.SetActive(false);
         JoinAllocation allocatedRelay = await RelayService.Instance.JoinAllocationAsync(joinCode);
         //send relay information to the transport

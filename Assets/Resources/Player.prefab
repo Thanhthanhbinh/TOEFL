@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d2736a5d1ee7f4685855f486480477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2227883400977471235}
   questionList:
     m_InternalValue:
       utf8LengthInBytes: 0

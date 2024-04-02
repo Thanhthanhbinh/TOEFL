@@ -13,14 +13,20 @@ public class resultController : MonoBehaviour
     [SerializeField] private Transform badgeContainer;
     [SerializeField] private Transform scenarioContainer;
     [SerializeField] private Transform canvas;
-
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private GameObject examPanel;
     [SerializeField] private GameObject rewardButton;
     [SerializeField] private GameObject resultImage;
+    [SerializeField] private GameObject submitButton;
+    [SerializeField] private GameObject nextButton;
+    [SerializeField] private GameObject relayObject;
 
     private Dictionary<string,string> showingGameType;
     private Button chosenScenario;
-    void Start()
+    private GameObject player;
+    public void setUpResult()
     {   
+        resultPanel.SetActive(true);
         showingGameType = new Dictionary<string,string>();
         setUpImage();
         generateScenario();
@@ -29,18 +35,19 @@ public class resultController : MonoBehaviour
         setUpBadge();
         setUpScenario();
         setUpReward();
+        submitButton.SetActive(false);
+        player = GameObject.Find("Player(Clone)");
+        chosenScenario = null;
     }
 
-    public void setUpReward(){
+    private void setUpReward(){
         if (ExamInfo.Instance.state == "YOU LOSE"){
-            Destroy(rewardButton);
+            rewardButton.SetActive(false);
+        }else{
+            rewardButton.SetActive(true);
         }
     }
-    public void nextSection(){
-        if (chosenScenario == null){
-            MessageManager.createMessage("Choose a Scenario before continue to next section.",canvas);
-            return;
-        }
+    private void nextSection(){
         int currentSection = 0;
         int nextSection = 0;
         foreach (var section in ExamInfo.Instance.section.Keys)
@@ -59,12 +66,19 @@ public class resultController : MonoBehaviour
         ExamInfo.Instance.section[currentSection] = "past";
         ExamInfo.Instance.section[nextSection] = "current";
         if (nextSection == 0){
-            changeToFinal();
+            finishExam();
+            submitButton.SetActive(true);
+            nextButton.SetActive(false);
             return;
         }
+        if (chosenScenario == null){
+            MessageManager.createMessage("Choose a Scenario before continue to next section.",canvas);
+            return;
+        }
+        resultPanel.SetActive(false);
         changeToExam();
     }
-    public void giveReward(){
+    private void giveReward(){
         System.Random rnd = new System.Random();
         int r = rnd.Next(ExamInfo.Instance.rewardList.Count);
         ExamInfo.Instance.reward = ExamInfo.Instance.rewardList[r];
@@ -80,7 +94,7 @@ public class resultController : MonoBehaviour
         if (ExamInfo.Instance.reward == "lives"){
             MessageManager.createMessage("You will have an additional live next section",canvas);
         }
-        Destroy(rewardButton);
+        rewardButton.SetActive(false);
     }
     
     private void setUpBadge(){
@@ -121,6 +135,7 @@ public class resultController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        chosenScenario = null;
         foreach (var gameType in showingGameType.Keys)
         {
             GameObject senarioButton = Resources.Load<GameObject>("senarioButton");
@@ -157,12 +172,41 @@ public class resultController : MonoBehaviour
     }
 
     private void changeToExam() {
-        SceneController.changeToExam();
+        examPanel.GetComponentInChildren<quizManagerController>().startExam();
     }
 
-    private void changeToFinal() {
+    public void changeToFinal() {
+        relayObject.GetComponent<RelayController>().EndGame();
         SceneController.changeToFinal();
     }
-
     
+    private void finishExam() {
+        StartCoroutine(submitExam());
+    }
+    IEnumerator submitExam() {
+            
+        StudentData final = new StudentData(ExamInfo.Instance.questionList, ExamInfo.Instance.grade, ExamInfo.Instance.total);
+        string json = JsonUtility.ToJson(final);
+        ExamData.Instance.resultData = json;
+        yield return new WaitUntil(() => player.GetComponent<Player>().updateResultList(json) == true);
+        Debug.Log("done");
+        MessageManager.createMessage("Exam Finish! \n Submit and view Feedback",canvas);
+    }
 }
+// the JSON file data is in the form of a list of QuestionAnswer
+    [System.Serializable]
+    public class StudentData
+    {
+        public List<QuestionAnswer> data; 
+
+        public int grade;
+        public int maximumGrade;
+        // the json must have 'data' as the key for the list of object
+
+        public StudentData(List<QuestionAnswer> inputData, int inputGrade, int inputMax){
+            data = inputData;
+            grade = inputGrade;
+            maximumGrade = inputMax;
+        }
+
+    }
