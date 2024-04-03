@@ -52,7 +52,7 @@ public class teacherDashboardController : MonoBehaviour
         if (UserData.Instance.playerType == ""){
             clientPanel.SetActive(false);
         }
-        clientExamInfo.GetComponent<Text>().text = "Joined exam Code \n" + UserData.Instance.joinCode;
+        clientExamInfo.GetComponent<Text>().text = "Waiting for exam with code \n" + UserData.Instance.joinCode;
     }
 
 
