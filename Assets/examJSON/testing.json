@@ -1,0 +1,9 @@
+{
+    "data":[
+        {"question":"If you have ever stood next to a rushing river, you ___ the water hammering away at the rocks.",
+        "answer":["(A)  saw","(B)  seen","(C)  are seeing","(D)  may have seen"],
+        "mode":"easy","section":1,"correctAnswer":"may have seen","chosenAnswer":"","index":1,"hintUsed":false
+        },{
+            "question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.",
+            "answer":["(A)  So1","(B)  While","(C)  Because","(D)  Although"],"mode":"easy","section":1,"correctAnswer":"While",
+            "chosenAnswer":"","index":2,"hintUsed":false},{"question":"testing question","answer":["(A)  answer a","(B)  answer B","(C)  answer c","(D)  answer D"],"mode":"easy","section":2,"correctAnswer":"answer B","chosenAnswer":"","index":3,"hintUsed":false},{"question":"__ you were at basketball practice today, your teacher, Mr. Morris, called on the phone to talk with you.","answer":["(A)  so 3","(B)  while 3","(C)  d","(D)  e"],"mode":"easy","section":3,"correctAnswer":"while 3","chosenAnswer":"","index":4,"hintUsed":false}]}

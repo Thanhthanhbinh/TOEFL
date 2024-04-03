@@ -39,10 +39,18 @@ public class Player : NetworkBehaviour
         return false;
     }
 
+    public List<FixedString4096Bytes> getStudentData() {
+        List<FixedString4096Bytes> temp = new List<FixedString4096Bytes>();
+        foreach (var item in resultList)
+        {
+            temp.Add(item);
+        }
+        return temp;
+    }
     
 
     public int getSubmitNumber(){
-        return submitNumber.Value;
+        return resultList.Count;
     }
     
     [ServerRpc(RequireOwnership = false)]

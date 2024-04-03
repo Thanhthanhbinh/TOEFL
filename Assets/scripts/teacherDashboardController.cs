@@ -72,6 +72,9 @@ public class teacherDashboardController : MonoBehaviour
     private void getExamQuestion(){
         //create fixstring to be shared in the relay server
         FixedString4096Bytes jsonString = File.ReadAllText(filePath);
+        QuizManager manager = new QuizManager(filePath);
+        // get the list of questions from
+        ExamData.Instance.questionList =  manager.readJSON();
         ExamData.Instance.examQuestion = jsonString;
     }
 

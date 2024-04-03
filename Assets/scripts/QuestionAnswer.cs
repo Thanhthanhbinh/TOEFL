@@ -9,28 +9,23 @@ using System.Linq;
 [System.Serializable]
 public class QuestionAnswer 
 {
-    [SerializeField]
-    public string question; // the title of the question
-    [SerializeField]
-    public List<string> answer = new List<string>(); // the List of answers e.g ['have']
-    [SerializeField]
-    public string mode;
-    [SerializeField]
-
-    public int section;
-    [SerializeField]
-    public string correctAnswer; // the correct answer e.g 'have'
-    private string chosenAnswer; // the chosen answer e.g 'have'
-
+    [SerializeField] public string question; // the title of the question
+    [SerializeField] public List<string> answer = new List<string>(); // the List of answers e.g ['have']
+    [SerializeField] public string mode;
+    [SerializeField] public int section;
+    [SerializeField] public string correctAnswer; // the correct answer e.g 'have'
+    [SerializeField] private string chosenAnswer; // the chosen answer e.g 'have'
+    [SerializeField] private int index;
     [SerializeField] private bool hintUsed;
 
-    public QuestionAnswer(string inputQuestion, List<string> inputAnswer,string inputCorrectAnswer,string inputMode) {
+    public QuestionAnswer(string inputQuestion, List<string> inputAnswer,string inputCorrectAnswer,string inputMode,int inputIndex) {
         question = inputQuestion;
         correctAnswer = inputCorrectAnswer;
         answer = inputAnswer;
         mode = inputMode;
         section = 1;
         hintUsed = false;
+        index = inputIndex;
         // dispalyAnswers();
     }
 
@@ -47,7 +42,7 @@ public class QuestionAnswer
     }
 
     public void toggleHint() {
-        hintUsed = false;
+        hintUsed = !hintUsed;
     }
 
     public bool isHintUsed() {
@@ -67,12 +62,12 @@ public class QuestionAnswer
         return convertList[num];
     }
 
-    
-
     public void setQuestion(string input) {
         question = input;
     }
-
+    public void setIndex(int input) {
+        index = input;
+    }
     public void setCorrect(string input) { 
         correctAnswer = input;
     }
@@ -89,7 +84,9 @@ public class QuestionAnswer
     public string getQuestion() {
         return question;
     }
-
+    public int getIndex() {
+        return index;
+    }
     public string getCorrectAnswer(){
         return correctAnswer;
     }

@@ -42,6 +42,7 @@ public class finalController : MonoBehaviour
             // assign the corresponding questionAnswer object
             temp.GetComponentInChildren<QuestionAnswerController>().content = item;
             temp.GetComponentInChildren<QuestionAnswerController>().quizController = null;
+            temp.GetComponentInChildren<QuestionAnswerController>().allInfoUI();
             temp.GetComponentInChildren<QuestionAnswerController>().showResult();
         }
     }

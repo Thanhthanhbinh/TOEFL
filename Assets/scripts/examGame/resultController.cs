@@ -50,6 +50,10 @@ public class resultController : MonoBehaviour
     private void nextSection(){
         int currentSection = 0;
         int nextSection = 0;
+        if (chosenScenario == null){
+            MessageManager.createMessage("Choose a Scenario before continue to next section.",canvas);
+            return;
+        }
         foreach (var section in ExamInfo.Instance.section.Keys)
         {
             if (ExamInfo.Instance.section[section] == "current"){
@@ -69,10 +73,6 @@ public class resultController : MonoBehaviour
             finishExam();
             submitButton.SetActive(true);
             nextButton.SetActive(false);
-            return;
-        }
-        if (chosenScenario == null){
-            MessageManager.createMessage("Choose a Scenario before continue to next section.",canvas);
             return;
         }
         resultPanel.SetActive(false);
@@ -176,6 +176,7 @@ public class resultController : MonoBehaviour
     }
 
     public void changeToFinal() {
+        ExamInfo.Instance.examMode = false;
         relayObject.GetComponent<RelayController>().EndGame();
         SceneController.changeToFinal();
     }
@@ -193,20 +194,3 @@ public class resultController : MonoBehaviour
         MessageManager.createMessage("Exam Finish! \n Submit and view Feedback",canvas);
     }
 }
-// the JSON file data is in the form of a list of QuestionAnswer
-    [System.Serializable]
-    public class StudentData
-    {
-        public List<QuestionAnswer> data; 
-
-        public int grade;
-        public int maximumGrade;
-        // the json must have 'data' as the key for the list of object
-
-        public StudentData(List<QuestionAnswer> inputData, int inputGrade, int inputMax){
-            data = inputData;
-            grade = inputGrade;
-            maximumGrade = inputMax;
-        }
-
-    }

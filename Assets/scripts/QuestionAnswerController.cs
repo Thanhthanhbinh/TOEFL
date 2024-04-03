@@ -23,8 +23,9 @@ public class QuestionAnswerController : MonoBehaviour
 
     
     // Start is called before the first frame update
-    void Start()
-    {
+    
+
+    public void setUpAll() {
         answered = false;
         hint = true;
         if (content.mode == "hard") {
@@ -32,19 +33,10 @@ public class QuestionAnswerController : MonoBehaviour
             Destroy(checkButton);
         }
         updateUI();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void updateUI() {
-        if (ExamInfo.Instance.examMode == false){
-            return;
-        }
+        
         //set up the question text
         TMP_Text questionObject = questionPanel.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
         questionObject.SetText(content.getQuestion());
@@ -61,14 +53,16 @@ public class QuestionAnswerController : MonoBehaviour
             TMP_Text textUI = answerButtonList.transform.GetChild(counter).gameObject.GetComponentInChildren<TMP_Text>();
             textUI.SetText(answer);
             //add listener to update chosen answer
-            answerButton.onClick.AddListener(() => { 
-                if (answered == false) {
-                    chosenAnswer = answerButton;
-                    content.setChosen(answer.Substring(3).Trim());
-                    resetButtonColor();
-                    answerButton.GetComponent<Image>().color = Color.yellow;
-                }
-            });
+            if (ExamInfo.Instance.examMode == true){
+                answerButton.onClick.AddListener(() => { 
+                    if (answered == false) {
+                        chosenAnswer = answerButton;
+                        content.setChosen(answer.Substring(3).Trim());
+                        resetButtonColor();
+                        answerButton.GetComponent<Image>().color = Color.yellow;
+                    }   
+                });
+            }
             //assign the button with the correct answer a ref
             if (answer.Substring(3).Trim() == content.getCorrectAnswer()){
                 correctAnswer = answerButton;
@@ -77,10 +71,9 @@ public class QuestionAnswerController : MonoBehaviour
             counter = counter + 1;
         }
         
-        
     }
 
-    private void allInfoUI() {
+    public void allInfoUI() {
         
         //set up the question text
         TMP_Text questionObject = questionPanel.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
@@ -92,47 +85,52 @@ public class QuestionAnswerController : MonoBehaviour
         //get a list of all the answers
         List<string> answerList = content.getAnswer();
         //add answer text to all answer button
-        foreach (var answer in answerList)
+        for (int i = 0; i < 4; i++)
+        
         {
-            Button answerButton = answerButtonList.transform.GetChild(counter).gameObject.GetComponent<Button>();
-            TMP_Text textUI = answerButtonList.transform.GetChild(counter).gameObject.GetComponentInChildren<TMP_Text>();
+            string answer = answerList[i];
+            Button answerButton = answerButtonList.transform.GetChild(i).gameObject.GetComponent<Button>();
+            TMP_Text textUI = answerButtonList.transform.GetChild(i).gameObject.GetComponentInChildren<TMP_Text>();
             textUI.SetText(answer);
+            string trimAnswer = answer.Substring(3).Trim();
             //assign the button with the correct answer a ref
-            if (answer.Substring(3).Trim() == content.getCorrectAnswer()){
+            if (trimAnswer== content.getCorrectAnswer()){
                 correctAnswer = answerButton;
                 correctVal = answer;
             }
-            if (answer.Substring(3).Trim() == content.getChosenAnswer()){
+            if (trimAnswer == content.getChosenAnswer()){
                 chosenAnswer = answerButton;
-                correctVal = answer;
             }
             counter = counter + 1;
         }
-        
+        Debug.Log(counter);
         
     }
     // this reset the color of answer buttons
     private void resetButtonColor(){
-        if (!ExamInfo.Instance.examMode){
-            return;
+        if (ExamInfo.Instance.examMode ){
+            GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
+            for (int i = 0; i < 4; i++)
+            {
+                Button answerButton = answerButtonList.transform.GetChild(i).gameObject.GetComponent<Button>();
+                answerButton.GetComponent<Image>().color = Color.white;
+            }
         }
-        GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
-        for (int i = 0; i < 4; i++)
-        {
-            Button answerButton = answerButtonList.transform.GetChild(i).gameObject.GetComponent<Button>();
-            answerButton.GetComponent<Image>().color = Color.white;
-        }
+        
     }
     //change color of the correct answer button
     private void showCorrect(){
-        correctAnswer.GetComponent<Image>().color = Color.green;
+        if (correctAnswer != null){
+            correctAnswer.GetComponent<Image>().color = Color.green;
+        }
+        
     }
     // this checks the answer chosen by the player and change the score and color accordingly
     public void checkAnswer() {
-        ExamInfo.Instance.questionList.Add(content);
         if (answered){
             return;
         }
+        ExamInfo.Instance.questionList.Add(content);
         answered = true;
         bool result = content.isCorrect();
         if (chosenAnswer == null){
@@ -152,8 +150,6 @@ public class QuestionAnswerController : MonoBehaviour
         
     }
     public void showResult() {
-        ExamInfo.Instance.examMode = false;
-        allInfoUI();
         Destroy(checkButton);
         Destroy(hintButton);
         
@@ -184,7 +180,7 @@ public class QuestionAnswerController : MonoBehaviour
         ExamInfo.Instance.hintBadge = false;
         hint = false;
         GameObject answerButtonList = questionPanel.transform.GetChild(2).gameObject;
-        List<string> answerList = content.getAnswer();
+        List<string> answerList = new List<string>(content.getAnswer());
         answerList.Remove(correctVal);
         System.Random r = new System.Random();
         int rInt = r.Next(0, answerList.Count);

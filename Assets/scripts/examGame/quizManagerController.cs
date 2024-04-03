@@ -130,6 +130,8 @@ public class quizManagerController : MonoBehaviour
                 temp.GetComponentInChildren<QuestionAnswerController>().content = item;
                 // assign the corresponding quizController object
                 temp.GetComponentInChildren<QuestionAnswerController>().quizController = quizController;
+                //set up the question for exam
+                temp.GetComponentInChildren<QuestionAnswerController>().setUpAll();
                 // add the question in the current section
                 questionList.Add(temp);
             }
@@ -236,7 +238,8 @@ public class quizManagerController : MonoBehaviour
     //check only one question and wait for check to be done
     IEnumerator checkOne(GameObject item) {
             
-            Debug.Log("cehcked");
+            Debug.Log("checked");
+            
             item.GetComponentInChildren<QuestionAnswerController>().checkAnswer();
             // yield return new WaitForSeconds(2.0f);
             yield return new WaitUntil(() => game.GetComponentInChildren<gameController>().finish() == true);

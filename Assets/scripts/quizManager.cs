@@ -33,11 +33,12 @@ public class QuizManager
         return jsonData.data;
     }
 
-    public List<QuestionAnswer> readJSONStringResult(FixedString4096Bytes jsonString) {
+
+    public StudentData readJSONStringResult(FixedString4096Bytes jsonString) {
         string value = jsonString.ToString();
         StudentData jsonData;
         jsonData = JsonUtility.FromJson<StudentData>(value);
-        return jsonData.data;
+        return jsonData;
     }
     
 }
@@ -65,3 +66,28 @@ public class QuizManager
         // the json must have 'data' as the key for the list of object
 
     }
+
+    [System.Serializable]
+    public class TempDataList
+    {
+        public List<StudentData> info; 
+        // the json must have 'data' as the key for the list of object
+    }
+
+    // the JSON file data is in the form of a list of QuestionAnswer
+    [System.Serializable]
+    public class StudentData
+    {
+        public List<QuestionAnswer> data; 
+
+        public int grade;
+        public int maximumGrade;
+        // the json must have 'data' as the key for the list of object
+        public StudentData(List<QuestionAnswer> inputData, int inputGrade, int inputMax){
+            data = inputData;
+            grade = inputGrade;
+            maximumGrade = inputMax;
+        }
+
+    }
+    

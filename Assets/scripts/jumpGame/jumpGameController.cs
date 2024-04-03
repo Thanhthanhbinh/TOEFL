@@ -40,7 +40,8 @@ public class jumpGameController : MonoBehaviour,gameController
             return;
         }
         Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
-        playerRigid.AddForce(new Vector2(0f, 600f), ForceMode2D.Impulse);
+        playerRigid.velocity = new Vector2 (0, 0);
+        playerRigid.AddForce(new Vector2(0f, 550f), ForceMode2D.Impulse);
         player.GetComponent<playerController>().touching = false;
     }
 
@@ -50,6 +51,7 @@ public class jumpGameController : MonoBehaviour,gameController
             return;
         }
         Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
+        playerRigid.velocity = new Vector2 (0, 0);
         playerRigid.AddForce(new Vector2(0f, 300f), ForceMode2D.Impulse);
         player.GetComponent<playerController>().touching = false;
     }
