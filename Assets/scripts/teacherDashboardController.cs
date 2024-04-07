@@ -23,7 +23,9 @@ using Unity.Collections;
 public class teacherDashboardController : MonoBehaviour
 {
     // Start is called before the first frame update
-    private string pathStart = @"C:/Users/loral/Desktop/unity project/2d platformer sample/PRJ-test/Assets/examJSON/";
+    [SerializeField] private GameObject filePathInput;
+    private string pathStart = @"";
+    // private string pathStart = @"C:/Users/loral/Desktop/unity project/2d platformer sample/PRJ-test/Assets/examJSON/";
     [SerializeField] private Transform examContainer;
     [SerializeField] private GameObject studentText;
     [SerializeField] private GameObject examText;
@@ -40,6 +42,9 @@ public class teacherDashboardController : MonoBehaviour
 
     void Start()
     {
+        pathStart = Directory.GetCurrentDirectory();
+        Debug.Log(pathStart);
+        filePathInput.GetComponent<TMP_InputField>().text  = pathStart;
         listExams();
         //only show examPanel when an exam is happening
         examPanel.SetActive(false);
@@ -55,7 +60,10 @@ public class teacherDashboardController : MonoBehaviour
         clientExamInfo.GetComponent<Text>().text = "Waiting for exam with code \n" + UserData.Instance.joinCode;
     }
 
-
+    public void updateFilePath(){
+        pathStart = filePathInput.GetComponent<TMP_InputField>().text;
+        listExams();
+    }
 
     public void updateStudentNumber(System.Single input){
         maxPlayers = (int)input;
@@ -63,7 +71,7 @@ public class teacherDashboardController : MonoBehaviour
     }
 
     private void updateLobbyData(string input) {
-        filePath = pathStart + input;
+        filePath = pathStart+"/" + input;
         examText.GetComponent<Text>().text = "Exam: "+ input;
         //create the json string of all question data
         getExamQuestion();
@@ -89,8 +97,13 @@ public class teacherDashboardController : MonoBehaviour
 
     private void listExams() {
         //go into the directory and get all file with JSON
-        DirectoryInfo directory = new DirectoryInfo(pathStart);
-        FileInfo[] examFiles = directory.GetFiles("*.json");
+        
+        try
+        {
+            DirectoryInfo directory = new DirectoryInfo(pathStart);
+            FileInfo[] examFiles = directory.GetFiles("*.json");
+        
+
         // show all files name into the scrollview
         GameObject examItem = Resources.Load<GameObject>("examItem");
         // clear scroll view
@@ -109,6 +122,12 @@ public class teacherDashboardController : MonoBehaviour
             selectButton.onClick.AddListener(() => { 
                 updateLobbyData(file.Name);
             });
+        }
+        }
+        catch (System.Exception)
+        {
+            MessageManager.createMessage("An Error has occur. \n Check filepath may be", canvas);
+            return;
         }
     }
     

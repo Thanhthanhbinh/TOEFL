@@ -37,8 +37,6 @@ public class questionAnswerEditController : MonoBehaviour
         questionInput.GetComponent<TMP_InputField>().text = content.getQuestion();
 
         int maxVal = sectionInput.GetComponent<TMP_Dropdown>().options.Count;
-        Debug.Log(content.section + "compare to" + maxVal);
-        Debug.Log(content.section > maxVal-1);
         if (content.section > maxVal-1 ){
             for (int i = 0; i < content.section - (maxVal-1); i++)
             {
