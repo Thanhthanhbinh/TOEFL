@@ -135,7 +135,10 @@ public class QuestionAnswerController : MonoBehaviour
         bool result = content.isCorrect();
         if (chosenAnswer == null){
             quizController.GetComponent<quizManagerController>().incorrectAnswer();
-            showCorrect();
+            if (content.mode == "easy") {
+                showCorrect();
+            }
+            
             return;
         }
         if (result) {
@@ -145,7 +148,9 @@ public class QuestionAnswerController : MonoBehaviour
         }else {
             chosenAnswer.GetComponent<Image>().color = Color.red;
             quizController.GetComponent<quizManagerController>().incorrectAnswer();
-            showCorrect();
+            if (content.mode == "easy") {
+                showCorrect();
+            }
         }
         
     }

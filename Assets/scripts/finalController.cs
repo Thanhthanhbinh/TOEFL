@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 public class finalController : MonoBehaviour
 {
     [SerializeField] private GameObject pictureContainer;
@@ -10,15 +11,28 @@ public class finalController : MonoBehaviour
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject score;
     [SerializeField] private GameObject grade;
+    [SerializeField] private GameObject name;
+    [SerializeField] private GameObject footnote;
+    [SerializeField] private GameObject certificate;
 
     void Start(){
         setUpBadge();
         setUpPicture();
         setUpScoreAndMark();
         setUpQuestion();
+        setUpCert();
     }
-
-    
+    public void showCert(){
+        certificate.SetActive(true);
+    }
+    public void hideCert(){
+        certificate.SetActive(false);
+    }
+    private void setUpCert(){
+        string date = DateTime.Now.ToString("dd/MM/yyyy");
+        name.GetComponent<Text>().text = UserData.Instance.name;
+        footnote.GetComponent<Text>().text = "Issued on: " + date + "\n" + "Exam Code: " + UserData.Instance.joinCode;
+    }
     private void setUpScoreAndMark(){
         score.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.score + "/" + ExamInfo.Instance.total);
         grade.GetComponentInChildren<TMP_Text>().SetText(ExamInfo.Instance.grade + "/" + ExamInfo.Instance.total);
@@ -46,7 +60,21 @@ public class finalController : MonoBehaviour
             temp.GetComponentInChildren<QuestionAnswerController>().showResult();
         }
     }
+
+    private void hasAllBadge(){
+        bool returnVal = true;
+        foreach (var badge in ExamInfo.Instance.badgeList.Keys)
+        {
+            if (ExamInfo.Instance.badgeList[badge] == 0 && badge !="allBadge"){
+                returnVal = false;
+            }
+        }
+        if (returnVal){
+            ExamInfo.Instance.badgeList["allBadge"] = 1;
+        }
+    }
     private void setUpBadge(){
+        hasAllBadge();
         foreach(Transform child in badgeContainer.transform)
         {
             Destroy(child.gameObject);
@@ -78,7 +106,9 @@ public class finalController : MonoBehaviour
             temp.GetComponent<Image>().sprite = pic;
         }
     }
-    public void submitExam(){
+    public void exit(){
+        ExamData.Instance.examQuestion = "";
+        ExamData.Instance.questionList = new List<QuestionAnswer>();
         SceneController.changeToMenu();
         
     }

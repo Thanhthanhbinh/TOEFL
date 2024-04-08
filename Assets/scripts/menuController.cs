@@ -17,9 +17,13 @@ public class menuController : MonoBehaviour
     public void changeToTeacherDashboard() {
         SceneController.changeToTeacherDashboard();
     }
+    public void updateName(string input){
+        UserData.Instance.name = input;
+    }
     
     public void updateJoinCode(string input){
         joinCode = input;
+        UserData.Instance.joinCode = joinCode;
     }
     
     public void joinExam(){
