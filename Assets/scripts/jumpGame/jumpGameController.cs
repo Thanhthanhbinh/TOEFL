@@ -33,6 +33,17 @@ public class jumpGameController : MonoBehaviour,gameController
             
         }
     }
+
+    private void generateNewPlatform(){
+        GameObject platform = Resources.Load<GameObject>(gameType+"/jumpPlatform");
+        GameObject temp = Instantiate(platform,platformGroup);
+        temp.transform.localPosition = new Vector2(temp.transform.localPosition.x,yPos);
+        temp.GetComponent<jumpPlatformController>().currentPlatform = temp;
+        temp.GetComponent<jumpPlatformController>().player = player;
+        temp.GetComponent<jumpPlatformController>().platformGroup = platformGroup;
+            
+        yPos = yPos + 100f;
+    }
     
     public void correctRun() {
         if (player.GetComponent<playerController>().touching == false){
