@@ -63,6 +63,7 @@ public class editorManagerController : MonoBehaviour
             //iterate through the children to get the QuestionAnswer object of the gameobject
             for (int i = 0; i < questionNo; i++)
             {
+                questionAnswerContainer.GetChild(i).GetComponentInChildren<questionAnswerEditController>().content.setIndex(i);
                 data.Add(questionAnswerContainer.GetChild(i).GetComponentInChildren<questionAnswerEditController>().content);
             }
             SerializableList temp = new SerializableList();

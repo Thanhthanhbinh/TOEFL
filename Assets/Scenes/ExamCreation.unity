@@ -1113,7 +1113,7 @@ GameObject:
   - component: {fileID: 408888609}
   - component: {fileID: 408888608}
   m_Layer: 5
-  m_Name: FilePath
+  m_Name: FilePathInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1856,7 +1856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 891474225}
   m_Layer: 5
-  m_Name: FilePanel
+  m_Name: FilePathPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

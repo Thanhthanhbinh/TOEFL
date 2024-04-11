@@ -12,9 +12,8 @@ public class questionEditorController : MonoBehaviour
         GameObject temp = Instantiate(questionEditPanel,parent);
         //assign them their own object so they can change UI
         temp.GetComponentInChildren<questionAnswerEditController>().questionPanel = temp;
-        int index = parent.childCount;
         //assign empty questionAnswer object
-        temp.GetComponentInChildren<questionAnswerEditController>().content = new QuestionAnswer("", new List<string>() ,"","easy",index);
+        temp.GetComponentInChildren<questionAnswerEditController>().content = new QuestionAnswer("", new List<string>() ,"","easy",0);
         
     }
     public void addQuestion(QuestionAnswer input){
