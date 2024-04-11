@@ -22,7 +22,7 @@ public class questionDataController : MonoBehaviour
     public void setQuestion(string input){
         question.GetComponent<TMP_Text>().SetText(input);
     }
-
+    
     public void setAnswerData(int index, string answer, int data){
         GameObject currentAnswer = answerContainer.transform.GetChild(index).gameObject;
         GameObject currentData = dataContainer.transform.GetChild(index).gameObject;

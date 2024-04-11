@@ -8,16 +8,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 // using QuestionAnswer.QuestionAnswer;
-public class ExamCreationScript
+public class MenuScript
 {
     Mouse mouse;
     // A Test behaves as an ordinary method
     
     [Test]
-    public void createEditor()
+    public void preventEmptyJoinCode()
     {
         Setup();
-        string path = "Canvas/CreateButton";
+        string path = "Canvas/joinGroup/JoinButton";
         Debug.Log(path);
         Button findButton = GameObject.Find(path).GetComponent<Button>();
         Debug.Log(findButton);
@@ -25,7 +25,7 @@ public class ExamCreationScript
         
         findButton.onClick.Invoke();
 
-        GameObject messageObject = GameObject.Find("Canvas/editor/editor(Clone)");
+        GameObject messageObject = GameObject.Find("Canvas/message(Clone)");
         Debug.Log(messageObject);
         Assert.That(messageObject != null, Is.EqualTo(true));
         
@@ -36,7 +36,7 @@ public class ExamCreationScript
     {
         // base.Setup();
         // SceneManager.LoadScene("Menu");
-        UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamCreation.unity") ;
+        UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Menu.unity") ;
         
     }
 

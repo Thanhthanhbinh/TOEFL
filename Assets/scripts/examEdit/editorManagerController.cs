@@ -9,7 +9,7 @@ using System;
 public class editorManagerController : MonoBehaviour
 {
     //create prefab of a panel of question
-    private GameObject editorPanel ;
+    // private GameObject editorPanel ;
     [SerializeField] private  Transform canvas;
     [SerializeField] private  Transform editorContainer;
     [SerializeField] private  GameObject examNameInput;
@@ -21,7 +21,7 @@ public class editorManagerController : MonoBehaviour
     private GameObject editor;
     void Start()
     {
-        editorPanel = Resources.Load<GameObject>("editor");
+        
         pathStart = Directory.GetCurrentDirectory();
         Debug.Log(pathStart);
         filePathInput.GetComponent<TMP_InputField>().text  = pathStart;
@@ -36,6 +36,7 @@ public class editorManagerController : MonoBehaviour
         
     }
     public void createEditor() {
+        GameObject editorPanel = Resources.Load<GameObject>("editor");
         //clear existing editor
         foreach(Transform child in editorContainer)
         {
@@ -43,6 +44,7 @@ public class editorManagerController : MonoBehaviour
         }
         GameObject temp = Instantiate(editorPanel,editorContainer);
         editor = temp;
+        Debug.Log("make editor");
     }
 
     public void saveExam() {

@@ -139,4 +139,7 @@ public class examDataController : MonoBehaviour
         return (int)((counter/total)*100);
         
     }
+    public void changeToMenu(){
+        SceneController.changeToMenu();
+    }
 }

@@ -27,7 +27,7 @@ public class menuController : MonoBehaviour
     }
     
     public void joinExam(){
-        if (joinCode == null || joinCode == ""){
+        if (joinCode == null || joinCode == "" || UserData.Instance.name == "" || UserData.Instance.name == null){
             MessageManager.createMessage("Enter an exam Code to join!",canvas);
             return;
         }
