@@ -8,6 +8,7 @@ public class menuController : MonoBehaviour
 {   
     private string joinCode;
     [SerializeField] private GameObject relayObject;
+    [SerializeField] private GameObject button;
     [SerializeField] private Transform canvas;
     // Start is called before the first frame update
     public void changeToExam() {
@@ -27,10 +28,19 @@ public class menuController : MonoBehaviour
     }
     
     public void joinExam(){
-        if (joinCode == null || joinCode == "" || UserData.Instance.name == "" || UserData.Instance.name == null){
-            MessageManager.createMessage("Enter an exam Code to join!",canvas);
-            return;
+        try
+        {
+            if (joinCode == null || joinCode == "" || UserData.Instance.name == "" || UserData.Instance.name == null){
+                MessageManager.createMessage("Enter an exam Code and a Name to join!",canvas);
+                return;
+            }
+            relayObject.GetComponent<RelayController>().JoinGame(joinCode);
         }
-        relayObject.GetComponent<RelayController>().JoinGame(joinCode);
+        catch (System.Exception)
+        {
+            MessageManager.createMessage("Error Joining Sever",canvas);
+            button.SetActive(true);
+        }
+        
     }
 }

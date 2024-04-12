@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
-// using Unity.Services.Lobbies;
-// using Unity.Services.Lobbies.Models;
+
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
@@ -25,11 +25,13 @@ public class RelayController : MonoBehaviour
     // private QueryResponse lobbies;
     private UnityTransport transport;
     private string playerId;
+    private Transform canvas;
 
 
     private void Awake() {
         Debug.Log("awake");
         transport = FindObjectOfType<UnityTransport>();
+        canvas = GameObject.Find("Canvas").transform;
     }
 
     private async Task Authenticate() {
@@ -53,23 +55,33 @@ public class RelayController : MonoBehaviour
     }
 
     public async void CreateGame(int maxPlayer) {
-        await Authenticate();
-        button.SetActive(false);
-        UserData.Instance.playerType = "host";
-        //get an allocation on the relay service for the game
-        Allocation allocatedRelay = await RelayService.Instance.CreateAllocationAsync(maxPlayer);
-        string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocatedRelay.AllocationId);
-        Debug.Log(joinCode);
-        //send relay information to the transport
+        try
+        {
+            await Authenticate();
+            button.SetActive(false);
+            UserData.Instance.playerType = "host";
+            //get an allocation on the relay service for the game
+            Allocation allocatedRelay = await RelayService.Instance.CreateAllocationAsync(maxPlayer);
+            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocatedRelay.AllocationId);
+            Debug.Log(joinCode);
+            //send relay information to the transport
 
-        transport.SetHostRelayData(allocatedRelay.RelayServer.IpV4, 
-                                    (ushort)allocatedRelay.RelayServer.Port,
-                                    allocatedRelay.AllocationIdBytes, allocatedRelay.Key,
-                                    allocatedRelay.ConnectionData);
-        // NetworkManager.Singleton.StartServer();
-        NetworkManager.Singleton.StartHost();
-        UserData.Instance.joinCode =  joinCode;
-        screenController.GetComponent<teacherDashboardController>().setUpExamPanel();
+            transport.SetHostRelayData(allocatedRelay.RelayServer.IpV4, 
+                                        (ushort)allocatedRelay.RelayServer.Port,
+                                        allocatedRelay.AllocationIdBytes, allocatedRelay.Key,
+                                        allocatedRelay.ConnectionData);
+            // NetworkManager.Singleton.StartServer();
+            NetworkManager.Singleton.StartHost();
+            UserData.Instance.joinCode =  joinCode;
+            screenController.GetComponent<teacherDashboardController>().setUpExamPanel();
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("An Error has Occure!");
+            MessageManager.createMessage("An Error has occured",canvas);
+            button.SetActive(true);
+        }
+        
     }
 
     public void StartGame(){
@@ -84,17 +96,26 @@ public class RelayController : MonoBehaviour
     }
 
     public async void JoinGame(string joinCode) {
-        await Authenticate();
-        UserData.Instance.playerType = "client";
-        UserData.Instance.joinCode = joinCode;
-        button.SetActive(false);
-        JoinAllocation allocatedRelay = await RelayService.Instance.JoinAllocationAsync(joinCode);
-        //send relay information to the transport
-        transport.SetClientRelayData(allocatedRelay.RelayServer.IpV4, 
-                                    (ushort)allocatedRelay.RelayServer.Port, 
-                                    allocatedRelay.AllocationIdBytes, allocatedRelay.Key, 
-                                    allocatedRelay.ConnectionData, allocatedRelay.HostConnectionData);
-        NetworkManager.Singleton.StartClient();
+        try
+        {
+            await Authenticate();
+            UserData.Instance.playerType = "client";
+            UserData.Instance.joinCode = joinCode;
+            button.SetActive(false);
+            JoinAllocation allocatedRelay = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            //send relay information to the transport
+            transport.SetClientRelayData(allocatedRelay.RelayServer.IpV4, 
+                                        (ushort)allocatedRelay.RelayServer.Port, 
+                                        allocatedRelay.AllocationIdBytes, allocatedRelay.Key, 
+                                        allocatedRelay.ConnectionData, allocatedRelay.HostConnectionData);
+            NetworkManager.Singleton.StartClient();
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("An Error has Occure!");
+            MessageManager.createMessage("An Error has occured",canvas);
+            button.SetActive(true);
+        }
     }
 
     void Cleanup()

@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using Unity.Collections;
 using UnityEngine.SceneManagement;
+
 // using UnityEditor;
 using System;
 public class SceneController 
@@ -17,7 +18,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamScene.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamScene.unity");
         }
     }
 
@@ -30,7 +31,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/TeacherDashboard.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/TeacherDashboard.unity");
         }
     }
 
@@ -43,7 +44,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamCreation.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamCreation.unity");
         }
     }
 
@@ -56,7 +57,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ResultScene.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ResultScene.unity");
         }
     }
 
@@ -69,7 +70,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Menu.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Menu.unity");
         }
     }
 
@@ -82,7 +83,7 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Final.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Final.unity");
         }
     }
 
@@ -95,7 +96,8 @@ public class SceneController
         catch (Exception e)
         {
             Debug.Log(e);
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamData.unity");
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/ExamData.unity");
+            
         }
     }
 }
