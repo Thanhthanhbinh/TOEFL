@@ -972,6 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relayObject: {fileID: 2116570504}
+  button: {fileID: 511745698}
   canvas: {fileID: 2060390802}
 --- !u!4 &921094608
 Transform:
@@ -2686,7 +2687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 511745698}
-  screenController: {fileID: 0}
+  screenController: {fileID: 921094606}
 --- !u!4 &2116570506
 Transform:
   m_ObjectHideFlags: 0
